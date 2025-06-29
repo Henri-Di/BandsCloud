@@ -1,0 +1,120 @@
+<?php
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use App\Entity\User;
+
+#[ORM\Entity(repositoryClass: "App\Repository\EventRepository")]
+#[ORM\Table(name: "events")]
+class Event
+{
+    #[ORM\Id, ORM\GeneratedValue, ORM\Column(type:"integer")]
+    private ?int $id = null;
+
+    #[ORM\Column(type:"string")]
+    private string $title;
+
+    #[ORM\Column(type:"text", nullable:true)]
+    private ?string $description = null;
+
+    #[ORM\Column(type:"datetime")]
+    private \DateTimeInterface $startDate;
+
+    #[ORM\Column(type:"datetime", nullable:true)]
+    private ?\DateTimeInterface $endDate = null;
+
+    #[ORM\Column(type:"datetime")]
+    private \DateTimeInterface $createdAt;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable:false)]
+    private User $artist;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable:false)]
+    private User $venue;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime(); // Define criação automática
+    }
+
+    // Getters and setters
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function getStartDate(): \DateTimeInterface
+    {
+        return $this->startDate;
+    }
+
+    public function setStartDate(\DateTimeInterface $startDate): self
+    {
+        $this->startDate = $startDate;
+        return $this;
+    }
+
+    public function getEndDate(): ?\DateTimeInterface
+    {
+        return $this->endDate;
+    }
+
+    public function setEndDate(?\DateTimeInterface $endDate): self
+    {
+        $this->endDate = $endDate;
+        return $this;
+    }
+
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+
+    public function getArtist(): User
+    {
+        return $this->artist;
+    }
+
+    public function setArtist(User $artist): self
+    {
+        $this->artist = $artist;
+        return $this;
+    }
+
+    public function getVenue(): User
+    {
+        return $this->venue;
+    }
+
+    public function setVenue(User $venue): self
+    {
+        $this->venue = $venue;
+        return $this;
+    }
+}
