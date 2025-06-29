@@ -1,0 +1,35 @@
+# === Backend (Symfony/PHP) ===
+
+/backend/vendor/             # Pasta das dependências PHP
+/backend/composer.lock       # Lockfile do Composer
+
+/backend/var/                # Cache, logs e arquivos temporários
+/backend/.env.local          # Variáveis locais de ambiente (sensíveis)
+/backend/.env.local.php      # Cache da config local
+
+/backend/public/bundles/     # Assets gerados
+
+# Configurações de IDEs e arquivos do sistema
+/.idea/
+/.vscode/
+*.log
+*.DS_Store
+
+# === Frontend (React/Vite/Node) ===
+
+/frontend/node_modules/      # Dependências JS
+/frontend/dist/              # Build final
+/frontend/.env.local         # Variáveis de ambiente locais
+/frontend/package-lock.json  # Lockfile npm (opcional ignorar ou não)
+
+# Configurações de IDEs e arquivos do sistema
+/.idea/
+/.vscode/
+*.log
+*.DS_Store
+
+# === Arquivos gerais do sistema ===
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
