@@ -13,7 +13,7 @@ export default function PrivateRoute({ children, allowedRoles }: PrivateRoutePro
 
   if (!isAuthenticated) return <Navigate to="/login" />;
 
-  if (allowedRoles && !roles.some(role => allowedRoles.includes(role))) {
+  if (allowedRoles && !roles.some((role: string) => allowedRoles.includes(role))) {
     return <Navigate to="/unauthorized" />;
   }
 
