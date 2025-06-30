@@ -2,44 +2,31 @@
 
 namespace App\Entity;
 
-use App\Repository\FollowRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\FollowRepository;
 
 #[ORM\Entity(repositoryClass: FollowRepository::class)]
-#[ORM\Table(name: "follows")]
+#[ORM\Table(name: 'follows')]
+#[ORM\UniqueConstraint(name: 'unique_follower_following', columns: ['follower_id', 'following_id'])]
 class Follow
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    /**
-     * Usuário que está seguindo (follower).
-     */
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "followsFollowing")]
-    #[ORM\JoinColumn(nullable: false)]
+    // Quem segue
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private User $follower;
 
-    /**
-     * Usuário que está sendo seguido (following).
-     */
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "followsFollowers")]
-    #[ORM\JoinColumn(nullable: false)]
+    // Quem está sendo seguido
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private User $following;
 
-    /**
-     * Data em que o follow foi criado.
-     */
-    #[ORM\Column(type: "datetime")]
-    private \DateTimeInterface $followedAt;
-
-    public function __construct(User $follower, User $following)
-    {
-        $this->follower = $follower;
-        $this->following = $following;
-        $this->followedAt = new \DateTimeImmutable();
-    }
+    #[ORM\Column(type: 'datetime_immutable')]
+    private \DateTimeImmutable $followedAt;
 
     public function getId(): ?int
     {
@@ -68,12 +55,12 @@ class Follow
         return $this;
     }
 
-    public function getFollowedAt(): \DateTimeInterface
+    public function getFollowedAt(): \DateTimeImmutable
     {
         return $this->followedAt;
     }
 
-    public function setFollowedAt(\DateTimeInterface $followedAt): self
+    public function setFollowedAt(\DateTimeImmutable $followedAt): self
     {
         $this->followedAt = $followedAt;
         return $this;

@@ -6,8 +6,6 @@ use App\Entity\Follow;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 /**
  * @extends ServiceEntityRepository<Follow>
@@ -25,58 +23,34 @@ class FollowRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retorna os follows onde o usuário é follower
-     * 
-     * @param User $follower
-     * @return Collection|Follow[]
+     * Retorna todos os follows onde $user é o seguidor (follower).
+     *
+     * @param User $user
+     * @return Follow[]
      */
-    public function findByFollower(User $follower): Collection
-    {
-        $results = $this->createQueryBuilder('f')
-            ->andWhere('f.follower = :follower')
-            ->setParameter('follower', $follower)
-            ->orderBy('f.followedAt', 'DESC')
-            ->getQuery()
-            ->getResult();
-
-        return new ArrayCollection($results);
-    }
-
-    /**
-     * Retorna os follows onde o usuário é following (ou seja, seguidores do usuário)
-     * 
-     * @param User $following
-     * @return Collection|Follow[]
-     */
-    public function findByFollowing(User $following): Collection
-    {
-        $results = $this->createQueryBuilder('f')
-            ->andWhere('f.following = :following')
-            ->setParameter('following', $following)
-            ->orderBy('f.followedAt', 'DESC')
-            ->getQuery()
-            ->getResult();
-
-        return new ArrayCollection($results);
-    }
-
-    /**
-     * Verifica se já existe um follow entre follower e following
-     * 
-     * @param User $follower
-     * @param User $following
-     * @return Follow|null
-     */
-    public function findFollow(User $follower, User $following): ?Follow
+    public function findByFollower(User $user): array
     {
         return $this->createQueryBuilder('f')
-            ->andWhere('f.follower = :follower')
-            ->andWhere('f.following = :following')
-            ->setParameters([
-                'follower' => $follower,
-                'following' => $following,
-            ])
+            ->andWhere('f.follower = :user')
+            ->setParameter('user', $user)
+            ->orderBy('f.followedAt', 'DESC')
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
+    }
+
+    /**
+     * Retorna todos os follows onde $user é seguido (following).
+     *
+     * @param User $user
+     * @return Follow[]
+     */
+    public function findByFollowing(User $user): array
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.following = :user')
+            ->setParameter('user', $user)
+            ->orderBy('f.followedAt', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 }

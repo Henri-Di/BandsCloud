@@ -10,7 +10,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Security;
 
 #[Route('/api/follows')]
 class FollowController extends AbstractController
@@ -19,23 +18,19 @@ class FollowController extends AbstractController
         private EntityManagerInterface $em,
         private FollowRepository $followRepository,
         private UserRepository $userRepository,
-        private Security $security
     ) {}
 
     #[Route('/following', name: 'list_following', methods: ['GET'])]
     public function listFollowing(): JsonResponse
     {
-        /** @var User|null $currentUser */
-        $currentUser = $this->security->getUser();
+        $currentUser = $this->getUser();
 
         if (!$currentUser instanceof User) {
             return $this->json(['error' => 'Usuário não autenticado.'], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
-        // findByFollower deve retornar Collection ou array
         $follows = $this->followRepository->findByFollower($currentUser);
 
-        // Caso retorne Collection, pode converter para array:
         if (is_object($follows) && method_exists($follows, 'toArray')) {
             $follows = $follows->toArray();
         }
@@ -52,8 +47,7 @@ class FollowController extends AbstractController
     #[Route('/followers', name: 'list_followers', methods: ['GET'])]
     public function listFollowers(): JsonResponse
     {
-        /** @var User|null $currentUser */
-        $currentUser = $this->security->getUser();
+        $currentUser = $this->getUser();
 
         if (!$currentUser instanceof User) {
             return $this->json(['error' => 'Usuário não autenticado.'], JsonResponse::HTTP_UNAUTHORIZED);
