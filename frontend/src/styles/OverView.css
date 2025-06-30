@@ -1,0 +1,232 @@
+/* =========================================================================
+   RESET BÁSICO
+   ========================================================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================================================================
+   ESTILOS GERAIS DO BODY
+   ========================================================================= */
+body {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: "TW Cen MT Condensed", sans-serif;
+}
+
+/* =========================================================================
+   CABEÇALHO - LOGO NO TOPO DA PÁGINA
+   ========================================================================= */
+.container-logo-page {
+  background-color: #6600cc;
+  width: 100%;
+  padding: 1.8889rem; /* espaçamento interno confortável */
+  border-radius: 0px;
+  text-align: center;
+  margin: auto;
+}
+
+.container-logo-page span {
+  color: white !important;
+}
+
+.text-logo-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem; /* espaçamento entre ícone e texto */
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 2.555rem;
+}
+
+.icon-logo-header {
+  font-size: 2.555rem;
+  color: white;
+}
+
+/* Responsividade para o cabeçalho em dispositivos móveis */
+@media (max-width: 480px) {
+  .container-logo-page {
+    padding: 0.666rem;
+    border-radius: 4px;
+  }
+
+  .text-logo-page {
+    font-size: 1.355rem;
+  }
+
+  .icon-logo-header {
+    font-size: 1.355rem;
+  }
+}
+
+/* =========================================================================
+   CONTAINER PRINCIPAL DA TELA DE LOGIN
+   ========================================================================= */
+.container-components-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* ocupa toda a altura da tela */
+  padding: 1rem; /* espaço interno lateral em telas pequenas */
+}
+
+/* =========================================================================
+   FORMULÁRIO DE LOGIN
+   ========================================================================= */
+.components-form-login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+
+  border: 1px solid #000000;
+  border-radius: 5px;
+  padding: 3.333rem;
+  max-width: 400px;
+  width: 100%;
+  margin: 0 1rem; /* espaço lateral em dispositivos menores */
+  gap: 1rem; /* espaço entre campos */
+  box-shadow: 0 6px 12px rgba(137, 43, 226, 0.3);
+}
+
+/* Título do formulário */
+.components-text-title-form-login {
+  background-color: transparent;
+  padding: 1.111rem;
+  color: #6600cc;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  margin-bottom: 1.5rem;
+}
+
+/* Wrapper para agrupar ícone + label */
+.components-label-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Espaçamento entre ícone e texto */
+  margin-bottom: 0.5rem; /* Espaço abaixo do conjunto */
+}
+
+/* Ícones dentro dos campos */
+.components-icons-form-login {
+  font-size: 1rem;
+  color: #6600cc; /* opcional para dar cor ao ícone */
+}
+
+/* Rótulo dos inputs */
+.components-label-form-login {
+  font-size: 1rem;
+  color: #000000;
+  margin-left: 0.25rem;
+}
+
+/* Campos de entrada */
+.components-input-login {
+  width: 100%;
+  padding: 0.555rem;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  font-size: 0.6555555rem;
+  margin-top: 0.5rem;
+}
+
+/* Botão do formulário */
+.components-btn-form-login {
+  width: 100%;
+  padding: 0.355rem;
+  background-color: transparent;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: #6600cc;
+  cursor: pointer;
+  border: 1px solid #6600cc;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 6px 12px rgba(137, 43, 226, 0.3);
+}
+
+.components-btn-form-login:hover {
+  background-color: #6600cc;
+  color: #ffffff;
+}
+
+/* =========================================================================
+   MENSAGENS DE ERRO
+   ========================================================================= */
+
+/* Mensagens de erro de validação por campo */
+.error-message {
+  margin-top: 0.4rem;
+  color: #d32f2f;
+  font-size: 0.875rem;
+  background-color: #fef2f2;
+  border: 1px solid #fca5a5;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  animation: fade-in 0.3s ease-out;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Erros gerais do sistema (ex: login inválido) */
+.error-box {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  animation: fade-in 0.3s ease-out;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Animação de fade-in */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================================
+   RODAPÉ (FOOTER)
+   ========================================================================= */
+.footer-text {
+  background-color: #6600cc;
+  width: 100%;
+  padding: 2.8889rem;
+  color: white;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 1px;
+  margin: auto;
+}
+
+/* =========================================================================
+   RESPONSIVIDADE GLOBAL (AJUSTES GERAIS EM TELAS PEQUENAS)
+   ========================================================================= */
+@media (max-width: 768px) {
+  .components-form-login {
+    padding: 2rem;
+  }
+
+  .footer-text {
+    font-size: 0.875rem;
+    padding: 1.5rem;
+  }
+}
