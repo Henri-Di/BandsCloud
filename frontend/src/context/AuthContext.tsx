@@ -7,23 +7,26 @@ interface User {
   name?: string;
   bio?: string;
   photo?: string;
-  // adicione outros campos do perfil aqui
+  roles?: string[];  // ADICIONADO: roles do usuário
+  // outros campos do usuário
 }
 
-interface UserContextType {
+interface AuthContextType {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   loading: boolean;
   refreshUser: () => Promise<void>;
+
+  isAuthenticated: boolean; // ADICIONADO
+  roles: string[];          // ADICIONADO
 }
 
-const UserContext = createContext<UserContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Função para buscar dados do usuário da API
   const refreshUser = async () => {
     try {
       setLoading(true);
@@ -45,20 +48,25 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Busca dados do usuário ao montar o contexto (ex: após login)
   useEffect(() => {
     refreshUser();
   }, []);
 
+  // Definindo isAuthenticated e roles para contexto
+  const isAuthenticated = !!user;
+  const roles = user?.roles ?? [];
+
   return (
-    <UserContext.Provider value={{ user, setUser, loading, refreshUser }}>
+    <AuthContext.Provider
+      value={{ user, setUser, loading, refreshUser, isAuthenticated, roles }}
+    >
       {children}
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
-export const useUser = () => {
-  const context = useContext(UserContext);
-  if (!context) throw new Error('useUser deve ser usado dentro de UserProvider');
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error('useAuth deve ser usado dentro de AuthProvider');
   return context;
 };
