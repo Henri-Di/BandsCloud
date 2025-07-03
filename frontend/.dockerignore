@@ -1,0 +1,16 @@
+# Dependências e build
+node_modules/
+dist/
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.*.local
+
+# Arquivos de IDE e sistema
+.DS_Store
+.idea/
+.vscode/
+*.log
+*.lock
+*.swp

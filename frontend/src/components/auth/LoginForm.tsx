@@ -1,11 +1,19 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FiMail, FiLock } from 'react-icons/fi';
+import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/OverView.css';
 
 interface LoginFormData {
   email: string;
   password: string;
+}
+
+interface DecodedToken {
+  username: string;
+  roles: string[];
+  exp: number;
 }
 
 const Login: React.FC = () => {
@@ -17,10 +25,12 @@ const Login: React.FC = () => {
     clearErrors,
   } = useForm<LoginFormData>();
 
+  const navigate = useNavigate();
+
   const onSubmit = async (data: LoginFormData) => {
     clearErrors();
     try {
-      const res = await fetch('/users/login', {
+      const res = await fetch('http://localhost:8081/api/login_check', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -28,15 +38,33 @@ const Login: React.FC = () => {
 
       if (!res.ok) {
         const errorData = await res.json();
-        setError('root', { type: 'server', message: errorData.error || 'Erro ao fazer login' });
+        setError('root', {
+          type: 'server',
+          message: errorData.error || 'Erro ao fazer login',
+        });
         return;
       }
 
       const resData = await res.json();
       localStorage.setItem('token', resData.token);
-      window.location.href = '/dashboard';
+
+      const decoded: DecodedToken = jwtDecode(resData.token);
+      const roles = decoded.roles;
+
+      if (roles.includes('ROLE_ARTIST')) {
+        navigate('/artist');
+      } else if (roles.includes('ROLE_VENUE')) {
+        navigate('/venue');
+      } else if (roles.includes('ROLE_FAN')) {
+        navigate('/fan');
+      } else {
+        navigate('/unauthorized');
+      }
     } catch {
-      setError('root', { type: 'server', message: 'Erro na comunicação com o servidor.' });
+      setError('root', {
+        type: 'server',
+        message: 'Erro na comunicação com o servidor.',
+      });
     }
   };
 
@@ -52,7 +80,6 @@ const Login: React.FC = () => {
           Acessar BandsCloud
         </h2>
 
-        {/* Mensagem de erro geral */}
         {errors.root && (
           <div role="alert" className="error-box">
             {errors.root.message}
@@ -63,7 +90,10 @@ const Login: React.FC = () => {
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-2">
             <FiMail className="components-icons-form-login text-gray-500 text-base" />
-            <label htmlFor="email" className="components-label-form-login text-sm font-semibold text-gray-700 leading-none">
+            <label
+              htmlFor="email"
+              className="components-label-form-login text-sm font-semibold text-gray-700 leading-none"
+            >
               Email
             </label>
           </div>
@@ -95,7 +125,10 @@ const Login: React.FC = () => {
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-2">
             <FiLock className="components-icons-form-login text-gray-500 text-base" />
-            <label htmlFor="password" className="components-label-form-login text-sm font-semibold text-gray-700 leading-none">
+            <label
+              htmlFor="password"
+              className="components-label-form-login text-sm font-semibold text-gray-700 leading-none"
+            >
               Senha
             </label>
           </div>

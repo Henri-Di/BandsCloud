@@ -1,4 +1,3 @@
-// src/components/auth/PrivateRoute.tsx
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import type { JSX } from 'react';
@@ -9,12 +8,17 @@ interface PrivateRouteProps {
 }
 
 export default function PrivateRoute({ children, allowedRoles }: PrivateRouteProps) {
-  const { isAuthenticated, roles } = useAuth();
+  const { isAuthenticated, roles = [] } = useAuth();
 
-  if (!isAuthenticated) return <Navigate to="/login" />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
-  if (allowedRoles && !roles.some((role: string) => allowedRoles.includes(role))) {
-    return <Navigate to="/unauthorized" />;
+  if (allowedRoles && allowedRoles.length > 0) {
+    const hasRole = roles.some(role => allowedRoles.includes(role));
+    if (!hasRole) {
+      return <Navigate to="/unauthorized" replace />;
+    }
   }
 
   return children;

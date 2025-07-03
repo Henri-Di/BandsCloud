@@ -7,8 +7,7 @@ interface User {
   name?: string;
   bio?: string;
   photo?: string;
-  roles?: string[];  // ADICIONADO: roles do usuário
-  // outros campos do usuário
+  roles?: string[];
 }
 
 interface AuthContextType {
@@ -16,14 +15,23 @@ interface AuthContextType {
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   loading: boolean;
   refreshUser: () => Promise<void>;
-
-  isAuthenticated: boolean; // ADICIONADO
-  roles: string[];          // ADICIONADO
+  isAuthenticated: boolean;
+  roles: string[];
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+// Axios interceptor para enviar token automaticamente
+axios.interceptors.request.use(config => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers = config.headers ?? {};
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -36,9 +44,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
         return;
       }
-      const response = await axios.get<User>('/api/user/profile', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get<User>('/api/user/profile');
       setUser(response.data);
     } catch (error) {
       console.error('Erro ao buscar perfil do usuário:', error);
@@ -52,14 +58,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     refreshUser();
   }, []);
 
-  // Definindo isAuthenticated e roles para contexto
   const isAuthenticated = !!user;
   const roles = user?.roles ?? [];
 
   return (
-    <AuthContext.Provider
-      value={{ user, setUser, loading, refreshUser, isAuthenticated, roles }}
-    >
+    <AuthContext.Provider value={{ user, setUser, loading, refreshUser, isAuthenticated, roles }}>
       {children}
     </AuthContext.Provider>
   );
