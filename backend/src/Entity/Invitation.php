@@ -2,12 +2,31 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
+
 use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: "App\Repository\InvitationRepository")]
 #[ORM\Table(name: "invitations")]
+#[ApiResource(
+    normalizationContext: ['groups' => ['invitation:list', 'invitation:item']],
+    denormalizationContext: ['groups' => ['invitation:write']],
+    operations: [
+        new GetCollection(), // GET /invitations
+        new Get(),           // GET /invitations/{id}
+        new Post(),          // POST /invitations
+        new Put(),           // PUT /invitations/{id}
+        new Delete(),        // DELETE /invitations/{id}
+    ],
+    order: ['createdAt' => 'DESC'],
+)]
 class Invitation
 {
     #[ORM\Id]
@@ -18,16 +37,16 @@ class Invitation
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['invitation:list', 'invitation:item'])]
+    #[Groups(['invitation:list', 'invitation:item', 'invitation:write'])]
     private ?User $venue = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['invitation:list', 'invitation:item'])]
+    #[Groups(['invitation:list', 'invitation:item', 'invitation:write'])]
     private ?User $artist = null;
 
     #[ORM\Column(type:"string", length:20)]
-    #[Groups(['invitation:list', 'invitation:item'])]
+    #[Groups(['invitation:list', 'invitation:item', 'invitation:write'])]
     private string $status = 'pending';
 
     #[ORM\Column(type:"datetime")]

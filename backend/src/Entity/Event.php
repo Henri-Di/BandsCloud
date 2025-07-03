@@ -1,37 +1,65 @@
 <?php
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
+
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: "App\Repository\EventRepository")]
 #[ORM\Table(name: "events")]
+#[ApiResource(
+    normalizationContext: ['groups' => ['event:list', 'event:item']],
+    denormalizationContext: ['groups' => ['event:write']],
+    operations: [
+        new GetCollection(), // GET /events
+        new Get(),           // GET /events/{id}
+        new Post(),          // POST /events
+        new Put(),           // PUT /events/{id}
+        new Delete(),        // DELETE /events/{id}
+    ],
+    order: ['createdAt' => 'DESC'],
+)]
 class Event
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column(type:"integer")]
+    #[Groups(['event:list', 'event:item', 'event_request:list', 'event_request:item'])]
     private ?int $id = null;
 
     #[ORM\Column(type:"string")]
+    #[Groups(['event:list', 'event:item', 'event:write', 'event_request:list', 'event_request:item'])]
     private string $title;
 
     #[ORM\Column(type:"text", nullable:true)]
+    #[Groups(['event:list', 'event:item', 'event:write', 'event_request:list', 'event_request:item'])]
     private ?string $description = null;
 
     #[ORM\Column(type:"datetime")]
+    #[Groups(['event:list', 'event:item', 'event:write', 'event_request:list', 'event_request:item'])]
     private \DateTimeInterface $startDate;
 
     #[ORM\Column(type:"datetime", nullable:true)]
+    #[Groups(['event:list', 'event:item', 'event:write', 'event_request:list', 'event_request:item'])]
     private ?\DateTimeInterface $endDate = null;
 
     #[ORM\Column(type:"datetime")]
+    #[Groups(['event:list', 'event:item', 'event_request:list', 'event_request:item'])]
     private \DateTimeInterface $createdAt;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable:false)]
+    #[Groups(['event:list', 'event:item', 'event:write', 'event_request:list', 'event_request:item'])]
     private User $artist;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable:false)]
+    #[Groups(['event:list', 'event:item', 'event:write', 'event_request:list', 'event_request:item'])]
     private User $venue;
 
     public function __construct()
@@ -94,7 +122,6 @@ class Event
     {
         return $this->createdAt;
     }
-
 
     public function getArtist(): User
     {

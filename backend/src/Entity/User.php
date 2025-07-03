@@ -2,6 +2,13 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -9,39 +16,54 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: "App\Repository\UserRepository")]
 #[ORM\Table(name: "users")]
+#[ApiResource(
+    normalizationContext: ['groups' => ['user:list', 'user:item']],
+    denormalizationContext: ['groups' => ['user:write']],
+    operations: [
+        new GetCollection(), // GET /users
+        new Get(),           // GET /users/{id}
+        new Post(),          // POST /users
+        new Put(),           // PUT /users/{id}
+        new Delete()         // DELETE /users/{id}
+    ]
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: "integer")]
-    #[Groups(["user:list", "user:item"])]
+    #[Groups(['user:list', 'user:item'])]
     private ?int $id = null;
 
     #[ORM\Column(type: "string", length: 180, unique: true)]
-    #[Groups(["user:list", "user:item"])]
+    #[Groups(['user:list', 'user:item', 'user:write'])]
     private string $email;
 
     #[ORM\Column(type: "json")]
     private array $roles = [];
 
     #[ORM\Column(type: "string")]
+    #[Groups(['user:write'])]
     private string $password;
 
     #[ORM\Column(type: "string", length: 100, nullable: true)]
-    #[Groups(["user:list", "user:item"])]
+    #[Groups(['user:list', 'user:item', 'user:write'])]
     private ?string $name = null;
 
     #[ORM\Column(type: "text", nullable: true)]
+    #[Groups(['user:item', 'user:write'])]
     private ?string $bio = null;
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Groups(['user:item', 'user:write'])]
     private ?string $photo = null;
 
     #[ORM\Column(type: "json", nullable: true)]
+    #[Groups(['user:item', 'user:write'])]
     private ?array $socialLinks = null;
 
     #[ORM\Column(type: "datetime")]
-    #[Groups(["user:list", "user:item"])]
+    #[Groups(['user:list', 'user:item'])]
     private \DateTimeInterface $createdAt;
 
     public function __construct()
@@ -84,7 +106,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+
         if (!in_array('ROLE_USER', $roles)) {
             $roles[] = 'ROLE_USER';
         }
