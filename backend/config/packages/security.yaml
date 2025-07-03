@@ -10,39 +10,32 @@ security:
                 property: email
 
     firewalls:
-        # Permite assets no ambiente de desenvolvimento
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        # Login via JSON para JWT
         login:
-            pattern: ^/api/login
+            pattern: ^/api/login_check$
             stateless: true
             provider: app_user_provider
             json_login:
-                check_path:       /api/login
-                username_path:    email
-                password_path:    password
-                success_handler:  lexik_jwt_authentication.handler.authentication_success
-                failure_handler:  lexik_jwt_authentication.handler.authentication_failure
+                check_path: /api/login_check
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
-        # Protege todas as rotas da API com JWT
         api:
             pattern: ^/api
             stateless: true
             provider: app_user_provider
             jwt: ~
 
-    # Acessos por rota
     access_control:
-        # Libera acesso ao login
-        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-
-        # Acesso específico por role (opcional, para rotas segmentadas)
+        - { path: ^/api/login_check$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/artist, roles: ROLE_ARTIST }
-        - { path: ^/api/venue,  roles: ROLE_VENUE }
-        - { path: ^/api/fan,    roles: ROLE_FAN }
-
-        # Protege qualquer outra rota da API
+        - { path: ^/api/venue, roles: ROLE_VENUE }
+        - { path: ^/api/fan, roles: ROLE_FAN }
+        - { path: ^/api/user/profile, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/admin, roles: ROLE_ADMIN }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

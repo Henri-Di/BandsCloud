@@ -1,0 +1,24 @@
+# Ignorar arquivos de ambiente locais
+.env
+.env.local
+.env.*.local
+
+# Ignorar arquivos de chaves JWT
+backend/config/jwt/*.pem
+
+# Ignorar dependências locais
+node_modules/
+frontend/node_modules/
+vendor/
+backend/var/
+
+# Ignorar arquivos do sistema
+*.log
+*.lock
+.DS_Store
+Thumbs.db
+
+# Ignorar cache e IDEs
+.vscode/
+.idea/
+*.swp

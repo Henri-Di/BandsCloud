@@ -1,0 +1,19 @@
+# Ignora arquivos de ambiente sensíveis
+.env.local
+.env.*.local
+
+# Ignora chaves JWT
+config/jwt/*.pem
+
+# Ignora cache e builds locais
+var/
+vendor/
+
+# Ignora arquivos de IDE
+.vscode/
+.idea/
+*.swp
+
+# Outros arquivos do sistema
+*.log
+.DS_Store
