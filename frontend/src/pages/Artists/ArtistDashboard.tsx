@@ -1,8 +1,11 @@
-import { FiMusic } from "react-icons/fi";
+import { FiMusic, FiBriefcase, FiUsers, FiHeadphones } from "react-icons/fi";
 import Navbar from "../../components/shared/NavbarArtist";
-import MusicPlayer from "../../components/artists/MusicPlayer";
+import MusicPlayer from "../../components/artists/ArtistPlayerAlbum";
+import AvailabilityCard from "../../components/artists/ArtisCardJobs";
+import FanCard from "../../components/artists/ArtistCardFans";
+import TopHitsPlaylist from "../../components/artists/ArtistPlayerMusic";
 import Footer from "../../components/shared/Footer";
-
+import "../../styles/OverView.css";
 
 const albums = [
   {
@@ -25,7 +28,7 @@ const albums = [
     artistName: "Artist Album",
     audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
   },
-    {
+  {
     artistName: "Artist Album",
     audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
   },
@@ -33,20 +36,114 @@ const albums = [
 
 const defaultCoverUrl = "/images/MusicPlayer.jpg";
 
+const opportunities = [
+  {
+    date: "10/07/2025",
+    location: "Rio de Janeiro, RJ",
+    type: "Show",
+    slotsAvailable: 2,
+    description:
+      "Evento local com público estimado em 500 pessoas. Palco com estrutura profissional.",
+  },
+  {
+    date: "15/07/2025",
+    location: "São Paulo, SP",
+    type: "Evento",
+    slotsAvailable: 1,
+    description:
+      "Feira de cultura independente com oportunidade de networking e venda de merchandising.",
+  },
+  {
+    date: "20/07/2025",
+    location: "Belo Horizonte, MG",
+    type: "Show",
+    slotsAvailable: 3,
+    description:
+      "Festival regional com artistas locais e nacionais. Excelente para exposição.",
+  },
+  {
+    date: "25/07/2025",
+    location: "Curitiba, PR",
+    type: "Evento",
+    slotsAvailable: 2,
+    description:
+      "Encontro cultural em espaço alternativo. Participação de produtores e imprensa.",
+  },
+  {
+    date: "28/07/2025",
+    location: "Porto Alegre, RS",
+    type: "Show",
+    slotsAvailable: 1,
+    description:
+      "Casa de shows renomada busca artista para abertura de atração principal.",
+  },
+  {
+    date: "30/07/2025",
+    location: "Salvador, BA",
+    type: "Evento",
+    slotsAvailable: 4,
+    description:
+      "Festival multicultural com diversas atrações artísticas e feira gastronômica.",
+  },
+];
+
+const fans = [
+  {
+    name: "Ana Silva",
+    location: "São Paulo, SP",
+    since: "01/2023",
+    bio: "Fã apaixonada por música indie e shows ao vivo.",
+  },
+  {
+    name: "Carlos Oliveira",
+    location: "Rio de Janeiro, RJ",
+    since: "11/2022",
+    bio: "Acompanhando artistas locais desde sempre.",
+  },
+  {
+    name: "Maria Fernanda",
+    location: "Belo Horizonte, MG",
+    since: "06/2024",
+    bio: "Músico amador e fã de música alternativa.",
+  },
+  {
+    name: "Lucas Pereira",
+    location: "Curitiba, PR",
+    since: "12/2023",
+  },
+  {
+    name: "Fernanda Souza",
+    location: "Porto Alegre, RS",
+    since: "03/2025",
+    bio: "Curto eventos culturais e novos talentos.",
+  },
+  {
+    name: "João Santos",
+    location: "Salvador, BA",
+    since: "08/2024",
+  },
+];
+
 export default function ArtistDashboard() {
-
-
   return (
     <div className="bg-gradient-to-br from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a] text-white min-h-screen flex flex-col">
       <Navbar />
 
       <main className="pt-32 px-4 sm:px-6 md:px-8 pb-20 max-w-7xl mx-auto flex-grow">
-        <h2 className="flex items-center gap-3 text-purple-200 text-xl sm:text-2xl font-semibold mb-8">
+        {/* Título: Playlist */}
+        <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mb-8 border-l-4 border-purple-500 pl-4">
+          <FiHeadphones size={26} />
+          <span>Músicas / Playlists</span>
+        </h2>
+
+        <TopHitsPlaylist />
+
+        {/* Título: Álbuns */}
+        <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-10 border-l-4 border-purple-500 pl-4">
           <FiMusic size={28} />
           <span>Álbuns - Novos Artistas</span>
         </h2>
 
-        {/* Container com scroll horizontal customizado */}
         <div className="overflow-x-auto scrollbar-custom">
           <div className="flex flex-col gap-6 md:flex-row md:flex-nowrap md:gap-6 md:pb-4">
             {albums.map((album, idx) => (
@@ -63,6 +160,43 @@ export default function ArtistDashboard() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Título: Disponibilidade para Shows/Eventos */}
+        <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-8 border-l-4 border-purple-500 pl-4">
+          <FiBriefcase size={26} />
+          <span>Oportunidades em Eventos / Shows</span>
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {opportunities.map((op, idx) => (
+            <AvailabilityCard
+              key={idx}
+              date={op.date}
+              location={op.location}
+              type={op.type as "Show" | "Evento"}
+              slotsAvailable={op.slotsAvailable}
+              description={op.description}
+            />
+          ))}
+        </div>
+
+        {/* Título: Seguidores/Fãs */}
+        <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-8 border-l-4 border-purple-500 pl-4">
+          <FiUsers size={26} />
+          <span>Seguidores / Fãs</span>
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {fans.map((fan, idx) => (
+            <FanCard
+              key={idx}
+              name={fan.name}
+              location={fan.location}
+              since={fan.since}
+              bio={fan.bio}
+            />
+          ))}
         </div>
       </main>
 
