@@ -1,5 +1,6 @@
 <?php
-namespace App\Controller;
+
+namespace App\Controller\Api;
 
 use App\Entity\Event;
 use App\Repository\EventRepository;
