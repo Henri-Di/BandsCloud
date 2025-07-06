@@ -1,25 +1,23 @@
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import type { JSX } from 'react';
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 interface PrivateRouteProps {
-  children: JSX.Element;
+  children: React.ReactElement;
   allowedRoles?: string[];
 }
 
-export default function PrivateRoute({ children, allowedRoles }: PrivateRouteProps) {
-  const { isAuthenticated, roles = [] } = useAuth();
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, allowedRoles }) => {
+  const { user, loading } = useAuth();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
+  if (loading) return <div>Carregando...</div>;
 
-  if (allowedRoles && allowedRoles.length > 0) {
-    const hasRole = roles.some(role => allowedRoles.includes(role));
-    if (!hasRole) {
-      return <Navigate to="/unauthorized" replace />;
-    }
+  if (!user) return <Navigate to="/login" replace />;
+
+  if (allowedRoles && !allowedRoles.some(role => user.roles.includes(role))) {
+    return <Navigate to="/unauthorized" replace />;
   }
 
   return children;
-}
+};
+
+export default PrivateRoute;

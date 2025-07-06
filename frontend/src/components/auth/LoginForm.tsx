@@ -1,8 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FiMail, FiLock } from 'react-icons/fi';
-import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode'; // IMPORT CORRETO
+import { useAuth } from '../../context/AuthContext';
 import '../../styles/OverView.css';
 
 interface LoginFormData {
@@ -11,7 +12,7 @@ interface LoginFormData {
 }
 
 interface DecodedToken {
-  username: string;
+  email: string;
   roles: string[];
   exp: number;
 }
@@ -26,44 +27,30 @@ const Login: React.FC = () => {
   } = useForm<LoginFormData>();
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const onSubmit = async (data: LoginFormData) => {
     clearErrors();
     try {
-      const res = await fetch('http://localhost:8081/api/login_check', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+      // login retorna o token (ou usuário)
+      const token = await login(data.email, data.password);
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        setError('root', {
-          type: 'server',
-          message: errorData.error || 'Erro ao fazer login',
-        });
-        return;
-      }
+      // Decodifica o token para pegar os roles
+      const decoded: DecodedToken = jwtDecode(token);
 
-      const resData = await res.json();
-      localStorage.setItem('token', resData.token);
-
-      const decoded: DecodedToken = jwtDecode(resData.token);
-      const roles = decoded.roles;
-
-      if (roles.includes('ROLE_ARTIST')) {
+      if (decoded.roles.includes('ROLE_ARTIST')) {
         navigate('/artist');
-      } else if (roles.includes('ROLE_VENUE')) {
+      } else if (decoded.roles.includes('ROLE_VENUE')) {
         navigate('/venue');
-      } else if (roles.includes('ROLE_FAN')) {
+      } else if (decoded.roles.includes('ROLE_FAN')) {
         navigate('/fan');
       } else {
         navigate('/unauthorized');
       }
-    } catch {
+    } catch (error: any) {
       setError('root', {
         type: 'server',
-        message: 'Erro na comunicação com o servidor.',
+        message: error.message || 'Erro ao fazer login',
       });
     }
   };
@@ -86,7 +73,6 @@ const Login: React.FC = () => {
           </div>
         )}
 
-        {/* Campo Email */}
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-2">
             <FiMail className="components-icons-form-login text-gray-500 text-base" />
@@ -121,7 +107,6 @@ const Login: React.FC = () => {
           )}
         </div>
 
-        {/* Campo Senha */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-2">
             <FiLock className="components-icons-form-login text-gray-500 text-base" />
@@ -150,7 +135,6 @@ const Login: React.FC = () => {
           )}
         </div>
 
-        {/* Botão de envio */}
         <button
           type="submit"
           disabled={isSubmitting}
