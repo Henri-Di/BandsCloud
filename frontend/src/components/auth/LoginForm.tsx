@@ -2,9 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FiMail, FiLock } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import {jwtDecode} from 'jwt-decode'; // IMPORT CORRETO
+import { jwtDecode } from 'jwt-decode';
 import { useAuth } from '../../context/AuthContext';
-import '../../styles/OverView.css';
 
 interface LoginFormData {
   email: string;
@@ -32,10 +31,7 @@ const Login: React.FC = () => {
   const onSubmit = async (data: LoginFormData) => {
     clearErrors();
     try {
-      // login retorna o token (ou usuário)
       const token = await login(data.email, data.password);
-
-      // Decodifica o token para pegar os roles
       const decoded: DecodedToken = jwtDecode(token);
 
       if (decoded.roles.includes('ROLE_ARTIST')) {
@@ -56,33 +52,33 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-tr from-indigo-50 via-white to-indigo-50 px-6 container-components-login">
+    <div className="flex min-h-screen items-center justify-center bg-gray-950 px-4">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-md p-10 rounded-2xl shadow-lg ring-1 components-form-login"
+        className="w-full max-w-md p-8 sm:p-10 bg-[#1e1e2f] text-white rounded-2xl shadow-2xl border border-purple-700 animate-fade-in"
         noValidate
-        aria-label="Formulário de login"
       >
-        <h2 className="components-text-title-form-login mb-8 text-3xl font-extrabold text-center">
-          Acessar BandsCloud
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 text-purple-300">
+          Bem-vindo de volta 🎧
         </h2>
 
         {errors.root && (
-          <div role="alert" className="error-box">
+          <div className="bg-red-100 text-red-700 text-sm rounded-md px-4 py-2 mb-4">
             {errors.root.message}
           </div>
         )}
 
+        {/* Email */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 mb-2">
-            <FiMail className="components-icons-form-login text-gray-500 text-base" />
-            <label
-              htmlFor="email"
-              className="components-label-form-login text-sm font-semibold text-gray-700 leading-none"
-            >
+          <label
+            htmlFor="email"
+            className="block mb-2 text-sm font-semibold text-purple-200"
+          >
+            <div className="flex items-center gap-2">
+              <FiMail className="text-purple-400" />
               Email
-            </label>
-          </div>
+            </div>
+          </label>
           <input
             id="email"
             type="email"
@@ -93,43 +89,42 @@ const Login: React.FC = () => {
                 message: 'Formato de email inválido',
               },
             })}
-            aria-invalid={errors.email ? 'true' : 'false'}
-            aria-describedby="email-error"
-            className={`components-input-login w-full rounded-xl border px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition ${
-              errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+            className={`w-full rounded-xl px-4 py-3 text-gray-100 bg-gray-800 border outline-none focus:ring-2 focus:ring-[#6600cc] transition placeholder-gray-400 ${
+              errors.email ? 'border-red-500' : 'border-gray-600'
             }`}
-            placeholder="Digite seu e-mail"
+            placeholder="seu@email.com"
+            aria-invalid={!!errors.email}
           />
           {errors.email && (
-            <p id="email-error" className="error-message">
-              {errors.email.message}
-            </p>
+            <p className="mt-1 text-sm text-red-400">{errors.email.message}</p>
           )}
         </div>
 
+        {/* Senha */}
         <div className="mb-8">
-          <div className="flex items-center gap-2 mb-2">
-            <FiLock className="components-icons-form-login text-gray-500 text-base" />
-            <label
-              htmlFor="password"
-              className="components-label-form-login text-sm font-semibold text-gray-700 leading-none"
-            >
+          <label
+            htmlFor="password"
+            className="block mb-2 text-sm font-semibold text-purple-200"
+          >
+            <div className="flex items-center gap-2">
+              <FiLock className="text-purple-400" />
               Senha
-            </label>
-          </div>
+            </div>
+          </label>
           <input
             id="password"
             type="password"
-            {...register('password', { required: 'Senha é obrigatória' })}
-            aria-invalid={errors.password ? 'true' : 'false'}
-            aria-describedby="password-error"
-            className={`components-input-login w-full rounded-xl border px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition ${
-              errors.password ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+            {...register('password', {
+              required: 'Senha é obrigatória',
+            })}
+            className={`w-full rounded-xl px-4 py-3 text-gray-100 bg-gray-800 border outline-none focus:ring-2 focus:ring-[#6600cc] transition placeholder-gray-400 ${
+              errors.password ? 'border-red-500' : 'border-gray-600'
             }`}
             placeholder="••••••••"
+            aria-invalid={!!errors.password}
           />
           {errors.password && (
-            <p id="password-error" className="error-message">
+            <p className="mt-1 text-sm text-red-400">
               {errors.password.message}
             </p>
           )}
@@ -138,7 +133,7 @@ const Login: React.FC = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="components-btn-form-login w-full rounded-2xl bg-indigo-600 py-3 text-white text-lg font-semibold shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-400 disabled:opacity-50 disabled:cursor-not-allowed transition"
+          className="w-full py-3 rounded-xl bg-[#6600cc] hover:bg-[#7f32cc] text-white font-semibold text-lg shadow-md transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? 'Entrando...' : 'Entrar'}
         </button>
