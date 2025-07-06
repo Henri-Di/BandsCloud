@@ -1,4 +1,5 @@
 # Ignora arquivos de ambiente sensíveis
+.env
 .env.local
 .env.*.local
 

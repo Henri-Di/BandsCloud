@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1bf67875e158eb08eb57de48235fb6d3",
+    "content-hash": "365f37132aa9e8f06d4d1b07a29b93bd",
     "packages": [
         {
             "name": "api-platform/core",
@@ -5307,16 +5307,16 @@
         },
         {
             "name": "symfony/security-core",
-            "version": "v7.3.0",
+            "version": "v7.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-core.git",
-                "reference": "ea9789fa09c6cbb16b345bcf3a718b8ada8affdb"
+                "reference": "fafab1003a31e51506e1a0a83e81c072211d81ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-core/zipball/ea9789fa09c6cbb16b345bcf3a718b8ada8affdb",
-                "reference": "ea9789fa09c6cbb16b345bcf3a718b8ada8affdb",
+                "url": "https://api.github.com/repos/symfony/security-core/zipball/fafab1003a31e51506e1a0a83e81c072211d81ba",
+                "reference": "fafab1003a31e51506e1a0a83e81c072211d81ba",
                 "shasum": ""
             },
             "require": {
@@ -5374,7 +5374,7 @@
             "description": "Symfony Security Component - Core Library",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/security-core/tree/v7.3.0"
+                "source": "https://github.com/symfony/security-core/tree/v7.3.1"
             },
             "funding": [
                 {
@@ -5390,7 +5390,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-05-26T10:15:06+00:00"
+            "time": "2025-06-23T07:28:50+00:00"
         },
         {
             "name": "symfony/security-csrf",
@@ -7009,11 +7009,96 @@
                 }
             ],
             "time": "2025-03-26T10:56:26+00:00"
+        },
+        {
+            "name": "symfony/web-profiler-bundle",
+            "version": "v7.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/web-profiler-bundle.git",
+                "reference": "47c994d8f08817122ffb48bf2ea4fb97b7e00d51"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/47c994d8f08817122ffb48bf2ea4fb97b7e00d51",
+                "reference": "47c994d8f08817122ffb48bf2ea4fb97b7e00d51",
+                "shasum": ""
+            },
+            "require": {
+                "composer-runtime-api": ">=2.1",
+                "php": ">=8.2",
+                "symfony/config": "^7.3",
+                "symfony/deprecation-contracts": "^2.5|^3",
+                "symfony/framework-bundle": "^6.4|^7.0",
+                "symfony/http-kernel": "^6.4|^7.0",
+                "symfony/routing": "^6.4|^7.0",
+                "symfony/twig-bundle": "^6.4|^7.0",
+                "twig/twig": "^3.12"
+            },
+            "conflict": {
+                "symfony/form": "<6.4",
+                "symfony/mailer": "<6.4",
+                "symfony/messenger": "<6.4",
+                "symfony/serializer": "<7.2",
+                "symfony/workflow": "<7.3"
+            },
+            "require-dev": {
+                "symfony/browser-kit": "^6.4|^7.0",
+                "symfony/console": "^6.4|^7.0",
+                "symfony/css-selector": "^6.4|^7.0",
+                "symfony/stopwatch": "^6.4|^7.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Bundle\\WebProfilerBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides a development tool that gives detailed information about the execution of any request",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "dev"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/web-profiler-bundle/tree/v7.3.1"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-06-05T09:30:41+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -7021,6 +7106,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
