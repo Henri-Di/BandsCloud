@@ -4,13 +4,21 @@ services:
       context: ./backend
     container_name: bandscloud-backend
     volumes:
-      - ./backend:/var/www/html
+      - ./backend:/var/www/html         # Monta o backend inteiro
     working_dir: /var/www/html
     command: php-fpm
+    expose:
+      - "9000"                          # Expõe para os outros containers (NGINX)
     depends_on:
       - db
-    expose:
-      - "9000"
+    environment:
+      APP_ENV: dev
+      APP_SECRET: 21a3e44f79031f3a8304d8a09123ef9a372f093df7b6ecaa7f8e4c8e5b2cda6f
+      DATABASE_URL: mysql://symfony:symfony@db:3306/bandscloud?serverVersion=8.0.32&charset=utf8mb4
+      JWT_SECRET_KEY: /var/www/html/config/jwt/private.pem
+      JWT_PUBLIC_KEY: /var/www/html/config/jwt/public.pem
+      JWT_PASSPHRASE: Z7m@Pq9!Xw2#Rf4$
+      CORS_ALLOW_ORIGIN: http://localhost:5173
 
   frontend:
     build:
@@ -18,11 +26,11 @@ services:
     container_name: bandscloud-frontend
     volumes:
       - ./frontend:/app
-      - /app/node_modules 
+      - /app/node_modules               # Evita sobrescrever node_modules
     working_dir: /app
     command: sh -c "npm install && npm run dev"
     ports:
-      - "5173:5173"
+      - "5173:5173"                     # Porta do Vite dev server
 
   db:
     image: mysql:8.0
@@ -34,7 +42,7 @@ services:
       MYSQL_USER: symfony
       MYSQL_PASSWORD: symfony
     ports:
-      - "3308:3306"
+      - "3308:3306"                     # MySQL acessível pela porta 3308 no host
     volumes:
       - mysql_data:/var/lib/mysql
 
@@ -42,11 +50,11 @@ services:
     image: nginx:latest
     container_name: bandscloud-nginx
     ports:
-      - "8081:80"
+      - "8081:80"                       # NGINX disponível no host via 8081
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./frontend/dist:/usr/share/nginx/html:ro
-      - ./backend/public:/var/www/html/public:ro
+      # - ./frontend/dist:/usr/share/nginx/html:ro
+      - ./backend:/var/www/html:ro     
     depends_on:
       - backend
       - frontend

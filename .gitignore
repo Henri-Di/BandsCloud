@@ -4,6 +4,8 @@
 /backend/composer.lock       # Lockfile do Composer
 
 /backend/var/                # Cache, logs e arquivos temporários
+/backend/.env                # Variáveis locais de ambiente (sensíveis)
+/backend/.env.dev            # Variáveis locais de ambiente (sensíveis)
 /backend/.env.local          # Variáveis locais de ambiente (sensíveis)
 /backend/.env.local.php      # Cache da config local
 

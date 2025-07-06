@@ -1,0 +1,10 @@
+services:
+  frontend:
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules  # para evitar conflitos entre host e container
+    command: npm run dev
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8081/api

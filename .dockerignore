@@ -1,5 +1,6 @@
 # Ignorar arquivos de ambiente locais
 .env
+.env.dev
 .env.local
 .env.*.local
 
