@@ -5,15 +5,15 @@ interface User {
   email: string;
   roles: string[];
   name?: string;
-  // outros campos do perfil que quiser
 }
 
 interface AuthContextType {
   user: User | null;
   token: string | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<string>; // <- retornando string token
-  logout: () => void;
+  loadingLogout: boolean; // <-- novo estado para loading logout
+  login: (email: string, password: string) => Promise<string>;
+  logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
 }
 
@@ -23,23 +23,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
+  const [loadingLogout, setLoadingLogout] = useState(false); // estado de loading para logout
 
-  // Função para buscar perfil
   const refreshUser = async () => {
     if (!token) {
       setUser(null);
       setLoading(false);
       return;
     }
-
     try {
       setLoading(true);
       const res = await fetch('http://localhost:8081/api/user/profile', {
         headers: { Authorization: `Bearer ${token}` },
       });
-
       if (!res.ok) throw new Error('Não autorizado');
-
       const userData = await res.json();
       setUser(userData);
     } catch {
@@ -51,7 +48,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Login: pega token e atualiza estado - retorna o token!
   const login = async (email: string, password: string): Promise<string> => {
     setLoading(true);
     const res = await fetch('http://localhost:8081/api/login_check', {
@@ -59,35 +55,46 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     });
-
     if (!res.ok) {
       setLoading(false);
       throw new Error('Falha no login');
     }
-
     const data = await res.json();
     localStorage.setItem('token', data.token);
     setToken(data.token);
     await refreshUser();
-    setLoading(false);// aqui retornamos o token para o componente Login
-
-    return data.token; 
+    setLoading(false);
+    return data.token;
   };
 
-  // Logout: limpa estado e localStorage
-  const logout = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem('token');
+  const logout = async () => {
+    try {
+      setLoadingLogout(true); // <-- ativa loading logout
+      await fetch('http://localhost:8081/api/logout', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    } catch {
+      // erro ignorado, continua logout local
+    } finally {
+      setUser(null);
+      setToken(null);
+      localStorage.removeItem('token');
+      setLoadingLogout(false); // <-- desativa loading logout
+    }
   };
 
-  // Ao montar, tenta carregar perfil se tiver token
   useEffect(() => {
-    refreshUser();
+    if (token) {
+      refreshUser();
+    } else {
+      setUser(null);
+      setLoading(false);
+    }
   }, [token]);
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout, refreshUser }}>
+    <AuthContext.Provider value={{ user, token, loading, loadingLogout, login, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

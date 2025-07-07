@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import LoadingSpinner from "../components/shared/LoadingSpinner"; 
+import LoadingSpinner from "./shared/LoadingSpinner"; 
 
 interface PrivateRouteProps {
   children: React.ReactElement;

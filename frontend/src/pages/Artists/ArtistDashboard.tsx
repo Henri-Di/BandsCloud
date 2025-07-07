@@ -1,11 +1,15 @@
-import { FiMusic, FiBriefcase, FiUsers, FiHeadphones } from "react-icons/fi";
+import { FiMusic, FiBriefcase, FiUser, FiHeadphones, FiUsers } from "react-icons/fi";
 import Navbar from "../../components/shared/NavbarArtist";
 import MusicPlayer from "../../components/artists/ArtistPlayerAlbum";
 import AvailabilityCard from "../../components/artists/ArtisCardJobs";
 import FanCard from "../../components/artists/ArtistCardFans";
 import TopHitsPlaylist from "../../components/artists/ArtistPlayerMusic";
+import ProfileSettingsCard from "../../components/artists/ArtistCardBio";
 import Footer from "../../components/shared/Footer";
 import "../../styles/OverView.css";
+import LogoutButton from "../../components/auth/Logout";
+import LoadingSpinnerLogout from "../../components/shared/LoadingSpinnerLogout"; // Importa o loading spinner
+import { useAuth } from "../../context/AuthContext"; // Importa o hook do contexto
 
 const albums = [
   {
@@ -125,79 +129,115 @@ const fans = [
 ];
 
 export default function ArtistDashboard() {
+  const { loadingLogout } = useAuth();
+
+  // Se estiver carregando logout, renderiza o spinner full screen
+  if (loadingLogout) {
+    return <LoadingSpinnerLogout />;
+  }
+
+  // Funções de exemplo para os botões do perfil
+  const handleEditProfile = () => alert("Editar perfil clicado");
+  const handleChangePassword = () => alert("Alterar senha clicado");
+  const handlePrivacySettings = () => alert("Configurações de privacidade clicado");
+  const handleNotificationSettings = () => alert("Configurações de notificações clicado");
+
   return (
     <div className="bg-gradient-to-br from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a] text-white min-h-screen flex flex-col">
       <Navbar />
 
-      <main className="pt-32 px-4 sm:px-6 md:px-8 pb-20 max-w-7xl mx-auto flex-grow">
-        {/* Título: Playlist */}
+      <main className="pt-32 px-4 sm:px-6 md:px-8 pb-20 max-w-7xl mx-auto flex-grow space-y-16">
+        {/* Card de perfil no topo */}
         <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mb-8 border-l-4 border-purple-500 pl-4">
-          <FiHeadphones size={26} />
-          <span>Músicas / Playlists</span>
+          <FiUser size={26} />
+          <span>Perfil </span>
         </h2>
+        <ProfileSettingsCard
+          userName="Artista BandsCloud"
+          email="artista@example.com"
+          onEditProfile={handleEditProfile}
+          onChangePassword={handleChangePassword}
+          onPrivacySettings={handlePrivacySettings}
+          onNotificationSettings={handleNotificationSettings}
+          logoutButton={<LogoutButton />}
+        />
 
-        <TopHitsPlaylist />
+        {/* Título: Playlist */}
+        <section>
+          <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mb-8 border-l-4 border-purple-500 pl-4">
+            <FiHeadphones size={26} />
+            <span>Músicas - Playlists</span>
+          </h2>
+
+          <TopHitsPlaylist />
+        </section>
 
         {/* Título: Álbuns */}
-        <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-10 border-l-4 border-purple-500 pl-4">
-          <FiMusic size={28} />
-          <span>Álbuns - Novos Artistas</span>
-        </h2>
+        <section>
+          <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-10 border-l-4 border-purple-500 pl-4">
+            <FiMusic size={28} />
+            <span>Álbuns</span>
+          </h2>
 
-        <div className="overflow-x-auto scrollbar-custom">
-          <div className="flex flex-col gap-6 md:flex-row md:flex-nowrap md:gap-6 md:pb-4">
-            {albums.map((album, idx) => (
-              <div
-                key={idx}
-                className="flex-shrink-0 w-full max-w-md md:w-[300px] mx-auto md:mx-0"
-              >
-                <MusicPlayer
-                  artistName={album.artistName}
-                  albumName={`Album ${idx + 1}`}
-                  coverUrl={defaultCoverUrl}
-                  audioSrc={album.audioSrc}
-                />
-              </div>
-            ))}
+          <div className="overflow-x-auto scrollbar-custom">
+            <div className="flex flex-col gap-6 md:flex-row md:flex-nowrap md:gap-6 md:pb-4">
+              {albums.map((album, idx) => (
+                <div
+                  key={idx}
+                  className="flex-shrink-0 w-full max-w-md md:w-[300px] mx-auto md:mx-0"
+                >
+                  <MusicPlayer
+                    artistName={album.artistName}
+                    albumName={`Album ${idx + 1}`}
+                    coverUrl={defaultCoverUrl}
+                    audioSrc={album.audioSrc}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        </section>
 
         {/* Título: Disponibilidade para Shows/Eventos */}
-        <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-8 border-l-4 border-purple-500 pl-4">
-          <FiBriefcase size={26} />
-          <span>Oportunidades em Eventos / Shows</span>
-        </h2>
+        <section>
+          <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-8 border-l-4 border-purple-500 pl-4">
+            <FiBriefcase size={26} />
+            <span>Eventos - Shows</span>
+          </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {opportunities.map((op, idx) => (
-            <AvailabilityCard
-              key={idx}
-              date={op.date}
-              location={op.location}
-              type={op.type as "Show" | "Evento"}
-              slotsAvailable={op.slotsAvailable}
-              description={op.description}
-            />
-          ))}
-        </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {opportunities.map((op, idx) => (
+              <AvailabilityCard
+                key={idx}
+                date={op.date}
+                location={op.location}
+                type={op.type as "Show" | "Evento"}
+                slotsAvailable={op.slotsAvailable}
+                description={op.description}
+              />
+            ))}
+          </div>
+        </section>
 
         {/* Título: Seguidores/Fãs */}
-        <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-8 border-l-4 border-purple-500 pl-4">
-          <FiUsers size={26} />
-          <span>Seguidores / Fãs</span>
-        </h2>
+        <section>
+          <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-8 border-l-4 border-purple-500 pl-4">
+            <FiUsers size={26} />
+            <span>Seguidores - Fãs</span>
+          </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {fans.map((fan, idx) => (
-            <FanCard
-              key={idx}
-              name={fan.name}
-              location={fan.location}
-              since={fan.since}
-              bio={fan.bio}
-            />
-          ))}
-        </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {fans.map((fan, idx) => (
+              <FanCard
+                key={idx}
+                name={fan.name}
+                location={fan.location}
+                since={fan.since}
+                bio={fan.bio}
+              />
+            ))}
+          </div>
+        </section>
       </main>
 
       <Footer />

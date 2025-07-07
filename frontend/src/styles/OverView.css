@@ -98,64 +98,61 @@ body {
   }
 }
 
+/* Animação da barra de loading */
+@keyframes loading-bar {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-loading-bar {
+  animation: loading-bar 2.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Animação de flutuar (nuvens e ícones) */
 @keyframes float {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translateY(0);
   }
   50% {
     transform: translateY(-15px);
   }
 }
 
-.float-animation {
-  animation: float 10s ease-in-out infinite;
+.animate-cloud {
+  animation: float 6s ease-in-out infinite;
+  will-change: transform;
 }
 
-.delay-0 {
+/* Classes para delay da animação float */
+.float-animation.delay-0 {
   animation-delay: 0s;
 }
-.delay-1000 {
+.float-animation.delay-1000 {
   animation-delay: 1s;
 }
-.delay-2000 {
+.float-animation.delay-1500 {
+  animation-delay: 1.5s;
+}
+.float-animation.delay-2000 {
   animation-delay: 2s;
 }
-.delay-3000 {
+.float-animation.delay-2500 {
+  animation-delay: 2.5s;
+}
+.float-animation.delay-3000 {
   animation-delay: 3s;
 }
-.delay-4000 {
+.float-animation.delay-3500 {
+  animation-delay: 3.5s;
+}
+.float-animation.delay-4000 {
   animation-delay: 4s;
-}
-
-.animate-spin-slow {
-  animation: spin 20s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes loading-bar {
-  0% {
-    left: -100%;
-    width: 100%;
-  }
-  50% {
-    left: 0%;
-    width: 100%;
-  }
-  100% {
-    left: 100%;
-    width: 100%;
-  }
-}
-
-.animate-loading-bar {
-  position: absolute;
-  animation: loading-bar 2s linear infinite;
 }

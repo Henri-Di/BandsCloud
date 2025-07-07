@@ -7,13 +7,14 @@ import {
   FiEye,
 } from "react-icons/fi";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface FanCardProps {
   name: string;
   location: string;
   since: string;
   bio?: string;
-  onViewProfile?: () => void; // callback opcional para ver perfil
+  onViewProfile?: () => void;
 }
 
 const FanCard: React.FC<FanCardProps> = ({
@@ -85,30 +86,50 @@ const FanCard: React.FC<FanCardProps> = ({
         </button>
       </div>
 
-      {/* Reações com emojis */}
+      {/* Reações com emojis usando motion */}
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        {["🎵", "❤️", "👏", "🔥", "😍", "🤘", "💯", "😎", "🎤"].map((emoji) => (
-          <button
-            key={emoji}
-            onClick={() => handleReaction(emoji)}
-            className={`text-xl transition-transform duration-200 ${
-              reaction === emoji ? "scale-110" : "hover:scale-105"
-            } ${reaction === emoji ? "opacity-100" : "opacity-70 hover:opacity-100"}`}
-            title={`Reagir com ${emoji}`}
-            aria-pressed={reaction === emoji}
-            type="button"
-          >
-            {emoji}
-          </button>
-        ))}
+        {["🎵", "❤️", "👏", "🔥", "😍", "🤘", "💯", "😎", "🎤"].map((emoji) => {
+          const isSelected = reaction === emoji;
+
+          return (
+            <motion.button
+              key={emoji}
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => handleReaction(emoji)}
+              title={`Reagir com ${emoji}`}
+              aria-label={`Reagir com ${emoji}`}
+              aria-pressed={isSelected}
+              type="button"
+              className={`text-xl px-2 py-1 rounded-lg border transition-all duration-300
+                ${
+                  isSelected
+                    ? "bg-[#6600cc]/20 border-[#6600cc] shadow-inner scale-105"
+                    : "border-transparent hover:bg-[#6600cc]/10 opacity-80 hover:opacity-100"
+                }`}
+            >
+              {emoji}
+            </motion.button>
+          );
+        })}
       </div>
 
-      {/* Reação selecionada */}
-      {reaction && (
-        <p className="text-sm text-gray-400 mt-2">
-          Você reagiu com <span className="text-xl">{reaction}</span>
-        </p>
-      )}
+      {/* Reação selecionada com animação */}
+      <AnimatePresence>
+        {reaction && (
+          <motion.div
+            key={reaction}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.3 }}
+            className="flex items-center gap-2 mt-3 text-sm text-purple-300 bg-[#6600cc]/10 border border-[#6600cc] px-4 py-2 rounded-lg animate-pulse"
+          >
+            <span className="text-lg">{reaction}</span>
+            <span className="italic">Você reagiu com {reaction}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
