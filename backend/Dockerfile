@@ -19,7 +19,7 @@ RUN mkdir -p var/cache var/log \
     && chown -R www-data:www-data var \
     && chmod -R 775 var
 
-COPY ./nginx/default /etc/nginx/nginx.conf
+COPY ./nginx/default.conf /etc/nginx/nginx.conf
 
 
 EXPOSE 80
