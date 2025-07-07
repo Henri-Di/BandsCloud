@@ -7,8 +7,8 @@ WORKDIR /app
 # Copia apenas os arquivos de dependência primeiro (para otimizar cache)
 COPY package*.json ./
 
-# Instala as dependências
-RUN npm install
+# Instala as dependências ignorando conflitos de peer dependencies
+RUN npm install --legacy-peer-deps
 
 # Copia o restante do projeto
 COPY . .
