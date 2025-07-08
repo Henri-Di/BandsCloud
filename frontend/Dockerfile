@@ -8,7 +8,7 @@ RUN npm install --legacy-peer-deps
 
 COPY . .
 
-ARG VITE_API_URL=https://api.bandscloud.com
+ARG VITE_API_URL=https://bandscloud.onrender.com/api
 ENV VITE_API_URL=$VITE_API_URL
 
 RUN npm run build
@@ -20,7 +20,7 @@ FROM nginx:alpine AS prod
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Copia sua config personalizada
-COPY nginx/default /etc/nginx/conf.d/default.conf
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
