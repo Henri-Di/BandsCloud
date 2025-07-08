@@ -11,7 +11,7 @@ interface AuthContextType {
   user: User | null;
   token: string | null;
   loading: boolean;
-  loadingLogout: boolean; // <-- novo estado para loading logout
+  loadingLogout: boolean;
   login: (email: string, password: string) => Promise<string>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
@@ -19,11 +19,14 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Base URL da API, usa VITE_API_URL ou proxy /api em dev
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
-  const [loadingLogout, setLoadingLogout] = useState(false); // estado de loading para logout
+  const [loadingLogout, setLoadingLogout] = useState(false);
 
   const refreshUser = async () => {
     if (!token) {
@@ -33,7 +36,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
     try {
       setLoading(true);
-      const res = await fetch('http://localhost:8081/api/user/profile', {
+      const res = await fetch(`${API_BASE_URL}/user/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error('Não autorizado');
@@ -50,7 +53,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (email: string, password: string): Promise<string> => {
     setLoading(true);
-    const res = await fetch('http://localhost:8081/api/login_check', {
+    const res = await fetch(`${API_BASE_URL}/login_check`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -69,18 +72,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      setLoadingLogout(true); // <-- ativa loading logout
-      await fetch('http://localhost:8081/api/logout', {
+      setLoadingLogout(true);
+      await fetch(`${API_BASE_URL}/logout`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
       });
     } catch {
-      // erro ignorado, continua logout local
+      // Ignora erros no logout remoto
     } finally {
       setUser(null);
       setToken(null);
       localStorage.removeItem('token');
-      setLoadingLogout(false); // <-- desativa loading logout
+      setLoadingLogout(false);
     }
   };
 
