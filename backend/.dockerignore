@@ -1,20 +1,18 @@
-# Ignora arquivos de ambiente sensíveis
+# Ignora todos os arquivos de ambiente
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example        # (opcional: mantém um exemplo sem dados reais)
 
-# Ignora chaves JWT
+# Ignora chaves JWT privadas
 config/jwt/*.pem
 
-# Ignora cache e builds locais
+# Ignora dependências, builds e cache
 var/
 vendor/
 
-# Ignora arquivos de IDE
+# Ignora arquivos de IDE e sistema
 .vscode/
 .idea/
 *.swp
-
-# Outros arquivos do sistema
 *.log
 .DS_Store
