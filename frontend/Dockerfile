@@ -23,7 +23,7 @@ RUN npm install --legacy-peer-deps
 
 COPY . .
 
-ARG VITE_API_URL=https://bandscloud.onrender.com/api
+ARG VITE_API_URL=https://bandscloud-backend.onrender.com/api
 ENV VITE_API_URL=$VITE_API_URL
 
 RUN npm run build
