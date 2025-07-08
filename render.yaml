@@ -2,11 +2,11 @@ services:
   - type: web
     name: bandscloud-backend
     env: docker
-    dockerContext: .
     dockerfilePath: backend/Dockerfile
+    dockerContext: .
     plan: free
     region: oregon
-    startCommand: sh -c "service nginx start && php-fpm"
+    startCommand: sh -c "php-fpm"
     envVars:
       - key: APP_ENV
         value: prod
@@ -15,9 +15,7 @@ services:
       - key: APP_SECRET
         value: 21a3e44f79031f3a8304d8a09123ef9a372f093df7b6ecaa7f8e4c8e5b2cda6f
       - key: DATABASE_URL
-        fromDatabase:
-          name: bandscloud-db
-          property: connectionString
+        value: "mysql://u781897905_bandscloud_db:bandscloud_access_DB_25@srv1664.hstgr.io:3306/u781897905_bandscloud"
       - key: JWT_SECRET_KEY
         value: /var/www/html/config/jwt/private.pem
       - key: JWT_PUBLIC_KEY
@@ -30,16 +28,10 @@ services:
   - type: web
     name: bandscloud-frontend
     env: docker
-    dockerContext: .
     dockerfilePath: frontend/Dockerfile
+    dockerContext: .
     plan: free
     region: oregon
     envVars:
       - key: VITE_API_URL
         value: https://bandscloud-backend.onrender.com/api
-
-databases:
-  - name: bandscloud-db
-    databaseName: bandscloud
-    user: symfony
-    plan: free
