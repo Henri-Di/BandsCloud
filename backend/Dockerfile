@@ -17,7 +17,7 @@ WORKDIR /var/www/html
 ARG APP_ENV=prod
 ENV APP_ENV=${APP_ENV}
 
-COPY backend/ ./
+COPY . ./
 
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
