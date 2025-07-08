@@ -34,4 +34,4 @@ services:
     region: oregon
     envVars:
       - key: VITE_API_URL
-        value: https://bandscloud-backend.onrender.com/api
+        value: https://bandscloud.onrender.com/api
