@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
  && apt-get clean && rm -rf /var/lib/apt/lists/* \
  && ln -s /usr/local/bin/php /usr/bin/php
 
-# Configura o PHP-FPM na porta 9000
+# Configura o PHP-FPM para ouvir na porta 9000
 RUN sed -i 's|^listen = .*|listen = 9000|' /usr/local/etc/php-fpm.d/www.conf \
  && echo "memory_limit=512M" > /usr/local/etc/php/conf.d/memory-limit.ini
 
@@ -30,21 +30,23 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Define diretório de trabalho
 WORKDIR /var/www/html
 
-# Adiciona suporte a variáveis de ambiente
+# Suporte a variáveis de ambiente
 ARG APP_ENV=prod
 ENV APP_ENV=${APP_ENV}
 
 # Copia o Symfony (ajuste se necessário)
 COPY backend/ ./
 
-# Copia a config do nginx (na raiz do projeto)
-COPY nginx/default.conf /etc/nginx/nginx.conf
+# Copia a configuração do nginx para o local correto (exemplo: conf.d)
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Prepara cache e logs Symfony
 RUN mkdir -p var/cache var/log \
  && chown -R www-data:www-data var \
  && chmod -R 775 var
 
+# Expor porta 80 para o Nginx
 EXPOSE 80
 
-CMD ["sh", "-c", "service nginx start && php-fpm"]
+# Comando para rodar nginx no foreground + php-fpm
+CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
