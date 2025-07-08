@@ -27,4 +27,4 @@ RUN mkdir -p var/cache var/log \
 
 EXPOSE 80
 
-CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "nginx && php-fpm -F"]
