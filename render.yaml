@@ -6,7 +6,7 @@ services:
     dockerfilePath: backend/Dockerfile
     plan: free
     region: oregon
-    startCommand: sh -c "service nginx start && php-fpm"
+    startCommand: sh -c "php-fpm -D && nginx -g 'daemon off;'"
     envVars:
       - key: APP_ENV
         value: prod
