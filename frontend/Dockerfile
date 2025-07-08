@@ -1,5 +1,5 @@
-# Etapa 1: Base para build (dev e prod)
-FROM node:20 AS base
+# Etapa 1: Build do Vite
+FROM node:20 AS build
 
 WORKDIR /app
 
@@ -8,30 +8,20 @@ RUN npm install --legacy-peer-deps
 
 COPY . .
 
-# Etapa 2: Desenvolvimento
-FROM base AS dev
-
-EXPOSE 5173
-
-CMD ["npm", "run", "dev"]
-
-# Etapa 3: Produção
-FROM base AS build
-
-ARG VITE_API_URL
+ARG VITE_API_URL=https://api.bandscloud.com
 ENV VITE_API_URL=$VITE_API_URL
 
 RUN npm run build
 
-# Etapa 4: Servidor para produção
-FROM node:20-alpine AS prod
+# Etapa 2: Servidor com NGINX
+FROM nginx:alpine AS prod
 
-WORKDIR /app
+# Copia build para NGINX
+COPY --from=build /app/dist /usr/share/nginx/html
 
-RUN npm install -g serve
-
-COPY --from=build /app/dist ./dist
+# Copia sua config personalizada
+COPY nginx/default /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
-CMD ["serve", "dist"]
+CMD ["nginx", "-g", "daemon off;"]

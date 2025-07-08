@@ -6,14 +6,14 @@ services:
     dockerfilePath: backend/Dockerfile
     plan: free
     region: oregon
-    startCommand: sh -c "php-fpm -D && nginx -g 'daemon off;'"
+    startCommand: sh -c "service nginx start && php-fpm"
     envVars:
       - key: APP_ENV
         value: prod
       - key: APP_DEBUG
         value: '0'
       - key: APP_SECRET
-        value: ...
+        value: 21a3e44f79031f3a8304d8a09123ef9a372f093df7b6ecaa7f8e4c8e5b2cda6f
       - key: DATABASE_URL
         fromDatabase:
           name: bandscloud-db
@@ -23,7 +23,7 @@ services:
       - key: JWT_PUBLIC_KEY
         value: /var/www/html/config/jwt/public.pem
       - key: JWT_PASSPHRASE
-        value: ...
+        value: Z7m@Pq9!Xw2#Rf4$
       - key: CORS_ALLOW_ORIGIN
         value: https://bandscloud-frontend.onrender.com
 
