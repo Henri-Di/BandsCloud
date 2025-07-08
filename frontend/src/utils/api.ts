@@ -12,18 +12,28 @@ export async function apiFetch<T = any>(
 ): Promise<T> {
   const { method = 'GET', body, headers = {} } = options;
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const fetchOptions: RequestInit = {
     method,
     headers: {
       'Content-Type': 'application/json',
       ...headers,
     },
-    body: body ? JSON.stringify(body) : undefined,
-  });
+  };
+
+  if (method !== 'GET' && body !== undefined) {
+    fetchOptions.body = JSON.stringify(body);
+  }
+
+  const response = await fetch(`${API_BASE_URL}${path}`, fetchOptions);
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
     throw new Error(errorData.message || `Erro ${response.status}`);
+  }
+
+  if (response.status === 204) {
+    // No Content
+    return null as any;
   }
 
   return response.json();

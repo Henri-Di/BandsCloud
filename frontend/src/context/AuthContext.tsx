@@ -19,13 +19,15 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Base URL da API, usa VITE_API_URL ou proxy /api em dev
 const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
   const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!user && !!token); // só loading se tiver token mas sem user
   const [loadingLogout, setLoadingLogout] = useState(false);
 
   const refreshUser = async () => {
@@ -42,10 +44,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (!res.ok) throw new Error('Não autorizado');
       const userData = await res.json();
       setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
     } catch {
       setUser(null);
       setToken(null);
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
     } finally {
       setLoading(false);
     }
@@ -53,26 +57,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (email: string, password: string): Promise<string> => {
     setLoading(true);
-    const res = await fetch(`${API_BASE_URL}/login_check`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
-    if (!res.ok) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/login_check`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Falha no login');
+      }
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      setToken(data.token);
+      await refreshUser();
+      return data.token;
+    } finally {
       setLoading(false);
-      throw new Error('Falha no login');
     }
-    const data = await res.json();
-    localStorage.setItem('token', data.token);
-    setToken(data.token);
-    await refreshUser();
-    setLoading(false);
-    return data.token;
   };
 
   const logout = async () => {
+    setLoadingLogout(true);
     try {
-      setLoadingLogout(true);
       await fetch(`${API_BASE_URL}/logout`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
@@ -83,15 +90,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(null);
       setToken(null);
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
       setLoadingLogout(false);
     }
   };
 
   useEffect(() => {
-    if (token) {
+    if (token && !user) {
       refreshUser();
     } else {
-      setUser(null);
       setLoading(false);
     }
   }, [token]);

@@ -1,18 +1,31 @@
-# Ignora todos os arquivos de ambiente
-.env
-.env.*
-!.env.example        # (opcional: mantém um exemplo sem dados reais)
+# Ignorar arquivos de ambiente específicos que geralmente contêm segredos
+.env.local
+.env.prod
+.env.test
 
-# Ignora chaves JWT privadas
+# Manter o arquivo de exemplo (template)
+!.env.example
+
+# Ignorar chaves privadas e sensíveis
 config/jwt/*.pem
 
-# Ignora dependências, builds e cache
-var/
-vendor/
+# Ignorar diretórios de dependências e cache
+/vendor/
+/node_modules/
+/var/
+/public/build/
 
-# Ignora arquivos de IDE e sistema
+# Ignorar arquivos de configuração do editor e sistema
 .vscode/
 .idea/
-*.swp
 *.log
+*.swp
 .DS_Store
+
+# Logs de ferramentas
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache Symfony, se existir fora de /var
+/cache/

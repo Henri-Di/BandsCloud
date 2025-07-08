@@ -1,37 +1,5 @@
-services:
-  - type: web
-    name: bandscloud-backend
-    env: docker
-    dockerfilePath: backend/Dockerfile
-    dockerContext: .
-    plan: free
-    region: oregon
-    startCommand: sh -c "php-fpm"
-    envVars:
-      - key: APP_ENV
-        value: prod
-      - key: APP_DEBUG
-        value: '0'
-      - key: APP_SECRET
-        value: 21a3e44f79031f3a8304d8a09123ef9a372f093df7b6ecaa7f8e4c8e5b2cda6f
-      - key: DATABASE_URL
-        value: "mysql://u781897905_bandscloud_db:bandscloud_access_DB_25@srv1664.hstgr.io:3306/u781897905_bandscloud"
-      - key: JWT_SECRET_KEY
-        value: /var/www/html/config/jwt/private.pem
-      - key: JWT_PUBLIC_KEY
-        value: /var/www/html/config/jwt/public.pem
-      - key: JWT_PASSPHRASE
-        value: Z7m@Pq9!Xw2#Rf4$
-      - key: CORS_ALLOW_ORIGIN
-        value: https://bandscloud-frontend.onrender.com
-
-  - type: web
-    name: bandscloud-frontend
-    env: docker
-    dockerfilePath: frontend/Dockerfile
-    dockerContext: .
-    plan: free
-    region: oregon
-    envVars:
-      - key: VITE_API_URL
-        value: https://bandscloud-backend.onrender.com/api
+# render.yaml
+routes:
+  - type: rewrite
+    source: /*
+    destination: /index.html
