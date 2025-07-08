@@ -54,7 +54,7 @@ services:
       - "8081:80"                   # NGINX disponível na porta 8081 do host
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./frontend/dist:/usr/share/nginx/html:ro   # serve frontend buildado (não dev)
+      # - ./frontend/dist:/usr/share/nginx/html:ro   # serve frontend buildado (não dev)
       - ./backend:/var/www/html:ro                   # serve backend para API PHP
     depends_on:
       - backend
