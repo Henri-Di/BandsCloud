@@ -22,8 +22,8 @@ FROM nginx:stable-alpine
 # Copia os arquivos gerados para o diretório padrão do nginx
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copia o arquivo de configuração customizado do nginx (você pode criar este arquivo para SPA)
-COPY default.conf /etc/nginx/conf.d/default.conf
+# Copia o arquivo de configuração customizado do nginx
+COPY nginx/default /etc/nginx/conf.d/default.conf
 
 # Expõe a porta 80 para acesso externo
 EXPOSE 80
