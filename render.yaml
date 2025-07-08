@@ -2,13 +2,16 @@ services:
   - type: web
     name: bandscloud-backend
     env: docker
-    rootDir: backend
+    dockerContext: .
+    dockerfilePath: backend/Dockerfile
     plan: free
     region: oregon
-    startCommand: php-fpm
+    startCommand: sh -c "service nginx start && php-fpm"
     envVars:
       - key: APP_ENV
         value: prod
+      - key: APP_DEBUG
+        value: '0'
       - key: APP_SECRET
         value: 21a3e44f79031f3a8304d8a09123ef9a372f093df7b6ecaa7f8e4c8e5b2cda6f
       - key: DATABASE_URL
@@ -26,12 +29,11 @@ services:
 
   - type: web
     name: bandscloud-frontend
-    env: static
-    rootDir: frontend
+    env: docker
+    dockerContext: .
+    dockerfilePath: frontend/Dockerfile
     plan: free
     region: oregon
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
         value: https://bandscloud-backend.onrender.com/api

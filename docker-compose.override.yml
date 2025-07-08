@@ -1,9 +1,12 @@
 services:
   frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      target: dev  
     volumes:
       - ./frontend:/app
-      - /app/node_modules  # para evitar conflitos entre host e container
-    command: npm run dev
+      - /app/node_modules
     ports:
       - "5173:5173"
     environment:
