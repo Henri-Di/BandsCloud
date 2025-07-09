@@ -4,7 +4,9 @@ import Login from './pages/auth/Login';
 import ArtistDashboard from './pages/Artists/ArtistDashboard';
 import ArtistDashboardTest from './pages/Artists-Test/ArtistDashboardTest';
 import VenueDashboard from './pages/Venues/VenueDashboard';
+import VenueDashboardTest from './pages/Venus-Test/VenueDashboardTest';
 import FanDashboard from './pages/Fans/FanDashboard';
+import FanDashboardTest from './pages/Fans-Test/FanDashboardTest';
 import Unauthorized from './pages/Unauthorized';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
@@ -17,6 +19,8 @@ const App = () => {
 
         {/* Rota de teste sem proteção */}
 <Route path="/artist-test" element={<ArtistDashboardTest />} /> 
+<Route path="/venue-test" element={<VenueDashboardTest />} /> 
+<Route path="/fan-test" element={<FanDashboardTest />} /> 
 <Route
   path="/artist"
   element={

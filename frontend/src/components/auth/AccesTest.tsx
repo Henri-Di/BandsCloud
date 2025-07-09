@@ -20,10 +20,10 @@ const DashboardAccessButtons: React.FC<DashboardAccessButtonsProps> = ({
         navigate('/artist-test');
         break;
       case 'venue':
-        navigate('/venue');
+        navigate('/venue-test');
         break;
       case 'fan':
-        navigate('/fan');
+        navigate('/fan-test');
         break;
     }
   };
