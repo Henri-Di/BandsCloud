@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiMail, FiLock } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode'; // corrigido import jwtDecode
+import { jwtDecode } from  'jwt-decode'; // corrigido import jwtDecode
 import { useAuth } from '../../context/AuthContext';
 import DashboardAccessButtons from '../auth/AccesTest'; // ajuste o caminho conforme necessário
 
@@ -54,12 +54,10 @@ const Login: React.FC = () => {
     }
   };
 
-  // Função que recebe o role selecionado no DashboardAccessButtons e executa login de teste
   const handleTestAccessRole = async (role: 'artist' | 'venue' | 'fan') => {
     setShowTestAccessOptions(false);
     clearErrors();
 
-    // Defina os e-mails e senhas de teste conforme seu backend
     let testEmail = '';
     const testPassword = 'senha123';
 
@@ -89,7 +87,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-950 px-4 relative">
+    <div className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gray-950 px-4 py-10 md:py-20 space-y-8 md:space-y-0 md:space-x-12 relative">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full max-w-md p-8 sm:p-10 bg-[#1e1e2f] text-white rounded-2xl shadow-2xl border border-purple-700 animate-fade-in z-10"
@@ -186,12 +184,14 @@ const Login: React.FC = () => {
         </button>
       </form>
 
-      {/* Renderiza as opções de dashboard para acesso teste */}
+      {/* DashboardAccessButtons */}
       {showTestAccessOptions && (
-        <DashboardAccessButtons
-          disabled={isSubmitting}
-          onAccess={handleTestAccessRole}
-        />
+        <div className="w-full max-w-md">
+          <DashboardAccessButtons
+            disabled={isSubmitting}
+            onAccess={handleTestAccessRole}
+          />
+        </div>
       )}
     </div>
   );
