@@ -1,4 +1,4 @@
-import { FiMusic, FiBriefcase, FiUser, FiHeadphones, FiUsers } from "react-icons/fi";
+import { FiMusic, FiBriefcase, FiUser, FiHeadphones, FiUsers, FiCloud } from "react-icons/fi";
 import Navbar from "../../components/shared/NavbarArtist";
 import MusicPlayer from "../../components/artists/ArtistPlayerAlbum";
 import AvailabilityCard from "../../components/artists/ArtisCardJobs";
@@ -8,8 +8,8 @@ import ProfileSettingsCard from "../../components/artists/ArtistCardBio";
 import Footer from "../../components/shared/Footer";
 import "../../styles/OverView.css";
 import LogoutButton from "../../components/auth/Logout";
-import LoadingSpinnerLogout from "../../components/shared/LoadingSpinnerLogout"; // Importa o loading spinner
-import { useAuth } from "../../context/AuthContext"; // Importa o hook do contexto
+import LoadingSpinnerLogout from "../../components/shared/LoadingSpinnerLogout";
+import { useAuth } from "../../context/AuthContext";
 
 const albums = [
   {
@@ -131,22 +131,81 @@ const fans = [
 export default function ArtistDashboard() {
   const { loadingLogout } = useAuth();
 
-  // Se estiver carregando logout, renderiza o spinner full screen
   if (loadingLogout) {
     return <LoadingSpinnerLogout />;
   }
 
-  // Funções de exemplo para os botões do perfil
   const handleEditProfile = () => alert("Editar perfil clicado");
   const handleChangePassword = () => alert("Alterar senha clicado");
   const handlePrivacySettings = () => alert("Configurações de privacidade clicado");
   const handleNotificationSettings = () => alert("Configurações de notificações clicado");
 
   return (
-    <div className="bg-gradient-to-br from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a] text-white min-h-screen flex flex-col">
+    <div className="bg-gradient-to-br from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a] text-white min-h-screen flex flex-col relative overflow-hidden">
       <Navbar />
 
-      <main className="pt-32 px-4 sm:px-6 md:px-8 pb-20 max-w-7xl mx-auto flex-grow space-y-16">
+      {/* 🔵 Ícones flutuantes no fundo - aumentado */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {/* Nuvens */}
+        <FiCloud className="absolute top-10 left-5 text-white/10 animate-cloud float-animation delay-0" size={100} />
+        <FiCloud className="absolute top-32 right-10 text-white/10 animate-cloud float-animation delay-2000" size={120} />
+        <FiCloud className="absolute bottom-10 left-1/3 text-white/10 animate-cloud float-animation delay-1000" size={90} />
+        <FiCloud className="absolute top-1/4 left-1/2 text-white/10 animate-cloud float-animation delay-2500" size={110} />
+        <FiCloud className="absolute bottom-1/3 right-1/4 text-white/10 animate-cloud float-animation delay-3500" size={95} />
+        <FiCloud className="absolute top-3/4 left-1/4 text-white/10 animate-cloud float-animation delay-1500" size={80} />
+        <FiCloud className="absolute top-20 left-3/4 text-white/10 animate-cloud float-animation delay-3000" size={100} />
+        <FiCloud className="absolute bottom-20 right-1/3 text-white/10 animate-cloud float-animation delay-4000" size={85} />
+        <FiCloud className="absolute top-1/2 right-1/5 text-white/10 animate-cloud float-animation delay-4500" size={90} />
+
+        {/* Notas musicais */}
+        <FiMusic className="absolute top-20 left-1/4 text-white/10 animate-cloud float-animation delay-1500" size={80} />
+        <FiMusic className="absolute bottom-20 right-1/5 text-white/10 animate-cloud float-animation delay-2500" size={70} />
+        <FiMusic className="absolute top-1/3 right-1/3 text-white/10 animate-cloud float-animation delay-3000" size={60} />
+        <FiMusic className="absolute bottom-1/4 left-1/5 text-white/10 animate-cloud float-animation delay-4000" size={90} />
+        <FiMusic className="absolute top-2/3 right-1/4 text-white/10 animate-cloud float-animation delay-1000" size={75} />
+        <FiMusic className="absolute top-1/5 right-1/2 text-white/10 animate-cloud float-animation delay-3500" size={70} />
+        <FiMusic className="absolute bottom-1/3 left-3/4 text-white/10 animate-cloud float-animation delay-2000" size={65} />
+        <FiMusic className="absolute top-3/4 left-3/5 text-white/10 animate-cloud float-animation delay-4500" size={80} />
+
+        {/* Emojis microfone 🎤 */}
+        <div
+          className="absolute text-white/10 animate-cloud float-animation delay-1800"
+          style={{ top: "15%", left: "10%", fontSize: 70, userSelect: "none", pointerEvents: "none" }}
+          aria-hidden="true"
+        >
+          🎤
+        </div>
+        <div
+          className="absolute text-white/10 animate-cloud float-animation delay-3200"
+          style={{ top: "60%", left: "35%", fontSize: 60, userSelect: "none", pointerEvents: "none" }}
+          aria-hidden="true"
+        >
+          🎤
+        </div>
+        <div
+          className="absolute text-white/10 animate-cloud float-animation delay-4000"
+          style={{ top: "70%", right: "20%", fontSize: 80, userSelect: "none", pointerEvents: "none" }}
+          aria-hidden="true"
+        >
+          🎤
+        </div>
+        <div
+          className="absolute text-white/10 animate-cloud float-animation delay-2500"
+          style={{ top: "40%", right: "10%", fontSize: 65, userSelect: "none", pointerEvents: "none" }}
+          aria-hidden="true"
+        >
+          🎤
+        </div>
+        <div
+          className="absolute text-white/10 animate-cloud float-animation delay-5000"
+          style={{ top: "80%", left: "60%", fontSize: 55, userSelect: "none", pointerEvents: "none" }}
+          aria-hidden="true"
+        >
+          🎤
+        </div>
+      </div>
+
+      <main className="pt-32 px-4 sm:px-6 md:px-8 pb-20 max-w-7xl mx-auto flex-grow relative z-10 space-y-16">
         {/* Card de perfil no topo */}
         <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mb-8 border-l-4 border-purple-500 pl-4">
           <FiUser size={26} />

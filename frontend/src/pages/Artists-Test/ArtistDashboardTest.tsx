@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiMusic, FiBriefcase, FiUser, FiHeadphones, FiUsers } from "react-icons/fi";
+import {
+  FiMusic,
+  FiBriefcase,
+  FiUser,
+  FiHeadphones,
+  FiUsers,
+  FiCloud,
+} from "react-icons/fi";
 import Navbar from "../../components/shared/NavbarArtist";
 import MusicPlayer from "../../components/artists/ArtistPlayerAlbum";
 import AvailabilityCard from "../../components/artists/ArtisCardJobs";
@@ -37,8 +44,6 @@ const albums = [
     audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
   },
 ];
-
-const defaultCoverUrl = "/images/MusicPlayer.jpg";
 
 const opportunities = [
   {
@@ -137,124 +142,159 @@ export default function ArtistDashboardTest() {
     return () => clearTimeout(timer);
   }, []);
 
-  if (loading) {
-    return <LoadingSpinnerArtist />;
-  }
+  if (loading) return <LoadingSpinnerArtist />;
 
-  const handleLogout = () => {
-    navigate("/login");
-  };
-
+  const handleLogout = () => navigate("/login");
   const handleEditProfile = () => alert("Editar perfil clicado");
   const handleChangePassword = () => alert("Alterar senha clicado");
   const handlePrivacySettings = () => alert("Configurações de privacidade clicado");
   const handleNotificationSettings = () => alert("Configurações de notificações clicado");
 
   return (
-    <div className="bg-gradient-to-br from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a] text-white min-h-screen flex flex-col">
-      <Navbar />
+    <div className="relative bg-gradient-to-br from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a] text-white min-h-screen flex flex-col overflow-hidden">
 
-      <main className="pt-32 px-4 sm:px-6 md:px-8 pb-20 max-w-7xl mx-auto flex-grow space-y-16">
+      {/* 🔵 Ícones flutuantes no fundo */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {/* Nuvens */}
+        <FiCloud className="absolute top-10 left-5 text-white/10 animate-cloud float-animation delay-0" size={100} />
+        <FiCloud className="absolute top-32 right-10 text-white/10 animate-cloud float-animation delay-2000" size={120} />
+        <FiCloud className="absolute bottom-10 left-1/3 text-white/10 animate-cloud float-animation delay-1000" size={90} />
+        <FiCloud className="absolute top-1/4 left-1/2 text-white/10 animate-cloud float-animation delay-2500" size={110} />
+        <FiCloud className="absolute bottom-1/3 right-1/4 text-white/10 animate-cloud float-animation delay-3500" size={95} />
+        <FiCloud className="absolute top-3/4 left-1/4 text-white/10 animate-cloud float-animation delay-1500" size={80} />
 
-        {/* Botão Sair */}
-        <div className="flex justify-end mb-4">
-          <button
-            onClick={handleLogout}
-            className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md text-white font-semibold transition"
-          >
-            Sair
-          </button>
+        {/* Notas musicais */}
+        <FiMusic className="absolute top-20 left-1/4 text-white/10 animate-cloud float-animation delay-1500" size={80} />
+        <FiMusic className="absolute bottom-20 right-1/5 text-white/10 animate-cloud float-animation delay-2500" size={70} />
+        <FiMusic className="absolute top-1/3 right-1/3 text-white/10 animate-cloud float-animation delay-3000" size={60} />
+        <FiMusic className="absolute bottom-1/4 left-1/5 text-white/10 animate-cloud float-animation delay-4000" size={90} />
+        <FiMusic className="absolute top-2/3 right-1/4 text-white/10 animate-cloud float-animation delay-1000" size={75} />
+
+        {/* Emojis microfone 🎤 */}
+        <div
+          className="absolute text-white/10 animate-cloud float-animation delay-1800"
+          style={{ top: "15%", left: "10%", fontSize: 70, userSelect: "none", pointerEvents: "none" }}
+          aria-hidden="true"
+        >
+          🎤
         </div>
+        <div
+          className="absolute text-white/10 animate-cloud float-animation delay-3200"
+          style={{ top: "60%", left: "35%", fontSize: 60, userSelect: "none", pointerEvents: "none" }}
+          aria-hidden="true"
+        >
+          🎤
+        </div>
+        <div
+          className="absolute text-white/10 animate-cloud float-animation delay-4000"
+          style={{ top: "70%", right: "20%", fontSize: 80, userSelect: "none", pointerEvents: "none" }}
+          aria-hidden="true"
+        >
+          🎤
+        </div>
+      </div>
 
-        <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mb-8 border-l-4 border-purple-500 pl-4">
-          <FiUser size={26} />
-          <span>Perfil </span>
-        </h2>
+      {/* Conteúdo */}
+      <div className="relative z-10 flex flex-col flex-grow">
+        <Navbar />
 
-        <ProfileSettingsCard
-          userName="Artista BandsCloud"
-          email="artista@example.com"
-          onEditProfile={handleEditProfile}
-          onChangePassword={handleChangePassword}
-          onPrivacySettings={handlePrivacySettings}
-          onNotificationSettings={handleNotificationSettings}
-        />
+        <main className="pt-32 px-4 sm:px-6 md:px-8 pb-20 max-w-7xl mx-auto flex-grow space-y-16">
 
-        <section>
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md text-white font-semibold transition"
+            >
+              Sair
+            </button>
+          </div>
+
           <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mb-8 border-l-4 border-purple-500 pl-4">
-            <FiHeadphones size={26} />
-            <span>Músicas</span>
+            <FiUser size={26} />
+            <span>Perfil</span>
           </h2>
 
-          <TopHitsPlaylist />
-        </section>
+          <ProfileSettingsCard
+            userName="Artista BandsCloud"
+            email="artista@example.com"
+            onEditProfile={handleEditProfile}
+            onChangePassword={handleChangePassword}
+            onPrivacySettings={handlePrivacySettings}
+            onNotificationSettings={handleNotificationSettings}
+          />
 
-        <section>
-          <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-10 border-l-4 border-purple-500 pl-4">
-            <FiMusic size={28} />
-            <span>Álbuns</span>
-          </h2>
+          <section>
+            <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mb-8 border-l-4 border-purple-500 pl-4">
+              <FiHeadphones size={26} />
+              <span>Músicas</span>
+            </h2>
+            <TopHitsPlaylist />
+          </section>
 
-          <div className="overflow-x-auto scrollbar-custom">
-            <div className="flex flex-col gap-6 md:flex-row md:flex-nowrap md:gap-6 md:pb-4">
-              {albums.map((album, idx) => (
-                <div
+          <section>
+            <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-10 border-l-4 border-purple-500 pl-4">
+              <FiMusic size={28} />
+              <span>Álbuns</span>
+            </h2>
+
+            <div className="overflow-x-auto scrollbar-custom">
+              <div className="flex flex-col gap-6 md:flex-row md:flex-nowrap md:gap-6 md:pb-4">
+                {albums.map((album, idx) => (
+                  <div key={idx} className="flex-shrink-0 w-full max-w-md md:w-[300px] mx-auto md:mx-0">
+                    <MusicPlayer
+                      artistName={album.artistName}
+                      albumName={`Album ${idx + 1}`}
+                      coverUrl="/images/MusicPlayer.jpg"
+                      audioSrc={album.audioSrc}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-8 border-l-4 border-purple-500 pl-4">
+              <FiBriefcase size={26} />
+              <span>Eventos e Shows</span>
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {opportunities.map((op, idx) => (
+                <AvailabilityCard
                   key={idx}
-                  className="flex-shrink-0 w-full max-w-md md:w-[300px] mx-auto md:mx-0"
-                >
-                  <MusicPlayer
-                    artistName={album.artistName}
-                    albumName={`Album ${idx + 1}`}
-                    coverUrl={defaultCoverUrl}
-                    audioSrc={album.audioSrc}
-                  />
-                </div>
+                  date={op.date}
+                  location={op.location}
+                  type={op.type as "Show" | "Evento"}
+                  slotsAvailable={op.slotsAvailable}
+                  description={op.description}
+                />
               ))}
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section>
-          <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-8 border-l-4 border-purple-500 pl-4">
-            <FiBriefcase size={26} />
-            <span>Eventos e Shows</span>
-          </h2>
+          <section>
+            <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-8 border-l-4 border-purple-500 pl-4">
+              <FiUsers size={26} />
+              <span>Seguidores - Fãs</span>
+            </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {opportunities.map((op, idx) => (
-              <AvailabilityCard
-                key={idx}
-                date={op.date}
-                location={op.location}
-                type={op.type as "Show" | "Evento"}
-                slotsAvailable={op.slotsAvailable}
-                description={op.description}
-              />
-            ))}
-          </div>
-        </section>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {fans.map((fan, idx) => (
+                <FanCard
+                  key={idx}
+                  name={fan.name}
+                  location={fan.location}
+                  since={fan.since}
+                  bio={fan.bio}
+                />
+              ))}
+            </div>
+          </section>
+        </main>
 
-        <section>
-          <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-8 border-l-4 border-purple-500 pl-4">
-            <FiUsers size={26} />
-            <span>Seguidores - Fãs</span>
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {fans.map((fan, idx) => (
-              <FanCard
-                key={idx}
-                name={fan.name}
-                location={fan.location}
-                since={fan.since}
-                bio={fan.bio}
-              />
-            ))}
-          </div>
-        </section>
-      </main>
-
-      <Footer />
+        <Footer />
+      </div>
     </div>
   );
 }
