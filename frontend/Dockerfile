@@ -23,7 +23,8 @@ FROM nginx:stable-alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Copia o arquivo de configuração customizado do nginx
-COPY nginx/default /etc/nginx/conf.d/default.conf
+COPY frontend/nginx/default.conf /etc/nginx/conf.d/default.conf
+
 
 # Expõe a porta 80 para acesso externo
 EXPOSE 80
