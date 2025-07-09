@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes cloudFloat {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-10px) translateX(10px);
+  }
+}
+
+@keyframes waveMotion {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Animations for Tailwind */
+.animate-cloudFloat {
+  animation: cloudFloat 15s ease-in-out infinite;
+}
+
+.animate-waveMotion {
+  animation: waveMotion 30s linear infinite;
+}

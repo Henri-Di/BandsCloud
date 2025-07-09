@@ -2,6 +2,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/auth/Login';
 import ArtistDashboard from './pages/Artists/ArtistDashboard';
+import ArtistDashboardTest from './pages/Artists/ArtistDashboardTest';
 import VenueDashboard from './pages/Venues/VenueDashboard';
 import FanDashboard from './pages/Fans/FanDashboard';
 import Unauthorized from './pages/Unauthorized';
@@ -13,6 +14,9 @@ const App = () => {
     <AuthProvider>
       <Routes>
         <Route path="/login" element={<Login />} />
+
+        {/* Rota de teste sem proteção */}
+        <Route path="/artist" element={<ArtistDashboardTest />} />
 
         <Route
           path="/artist"
