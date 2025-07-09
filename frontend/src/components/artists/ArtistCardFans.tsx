@@ -31,7 +31,7 @@ const FanCard: React.FC<FanCardProps> = ({
   };
 
   return (
-    <div className="bg-gradient-to-br from-[#1a1a1a] to-[#2b2b2b] text-white rounded-2xl shadow-xl p-6 space-y-5 border border-[#6600cc]/50 hover:shadow-purple-700/30 transition-all duration-300 hover:scale-[1.02]">
+    <div className="bg-gradient-to-br from-[#1a1a1a] to-[#2b2b2b] text-white rounded-2xl shadow-xl p-6 space-y-5 border border-[#6600cc]/50 hover:shadow-[0_0_15px_#7a3aff80] transition-all duration-300 hover:scale-[1.02]">
       {/* Cabeçalho com nome e data */}
       <div className="flex justify-between items-center">
         <h3 className="text-xl font-bold text-[#6600cc] tracking-tight flex items-center gap-2">
@@ -60,16 +60,18 @@ const FanCard: React.FC<FanCardProps> = ({
       {/* Botões de ação */}
       <div className="flex flex-wrap gap-3 mt-4">
         <button
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#6600cc] hover:bg-[#7a3aff] text-white text-sm font-medium transition-all shadow-md"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#6600cc] hover:bg-[#b285ff] text-white text-sm font-medium transition-all shadow-md focus:outline-none focus:ring-2 focus:ring-purple-400"
           aria-label={`Seguir ${name} de volta`}
+          type="button"
         >
           <FiUserPlus />
           Seguir de volta
         </button>
 
         <button
-          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#6600cc] text-white text-sm font-medium hover:bg-[#6600cc]/10 transition-all shadow-sm"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#6600cc] text-white text-sm font-medium hover:bg-[#b285ff]/20 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
           aria-label={`Enviar mensagem para ${name}`}
+          type="button"
         >
           <FiMessageCircle />
           Mensagem
@@ -77,7 +79,7 @@ const FanCard: React.FC<FanCardProps> = ({
 
         <button
           onClick={onViewProfile}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#6600cc] text-white text-sm font-medium hover:bg-[#6600cc]/20 transition-all shadow-sm"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#6600cc] text-white text-sm font-medium hover:bg-[#b285ff]/30 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
           aria-label={`Ver perfil de ${name}`}
           type="button"
         >
@@ -101,11 +103,11 @@ const FanCard: React.FC<FanCardProps> = ({
               aria-label={`Reagir com ${emoji}`}
               aria-pressed={isSelected}
               type="button"
-              className={`text-xl px-2 py-1 rounded-lg border transition-all duration-300
+              className={`text-xl px-3 py-1 rounded-lg border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-400
                 ${
                   isSelected
-                    ? "bg-[#6600cc]/20 border-[#6600cc] shadow-inner scale-105"
-                    : "border-transparent hover:bg-[#6600cc]/10 opacity-80 hover:opacity-100"
+                    ? "bg-[#b285ff]/40 border-[#b285ff] shadow-inner scale-105"
+                    : "border-transparent hover:bg-[#b285ff]/20 opacity-80 hover:opacity-100"
                 }`}
             >
               {emoji}
@@ -123,7 +125,7 @@ const FanCard: React.FC<FanCardProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.3 }}
-            className="flex items-center gap-2 mt-3 text-sm text-purple-300 bg-[#6600cc]/10 border border-[#6600cc] px-4 py-2 rounded-lg animate-pulse"
+            className="flex items-center gap-2 mt-3 text-sm text-purple-300 bg-[#b285ff]/20 border border-[#b285ff] px-4 py-2 rounded-lg animate-pulse"
           >
             <span className="text-lg">{reaction}</span>
             <span className="italic">Você reagiu com {reaction}</span>

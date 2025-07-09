@@ -17,7 +17,8 @@ const AvailabilityCard: React.FC<AvailabilityCardProps> = ({
   description,
 }) => {
   return (
-    <div className="bg-gradient-to-br from-[#1a1a1a] to-[#2b2b2b] text-white rounded-2xl shadow-xl p-6 space-y-5 border border-[#6600cc]/50 hover:shadow-purple-700/30 transition-all duration-300 hover:scale-[1.02]">
+    <div className="bg-gradient-to-br from-[#1a1a1a] to-[#2b2b2b] text-white rounded-2xl shadow-xl p-6 space-y-5 border border-[#6600cc]/50 
+                    hover:shadow-[0_0_25px_#7a3aff80] transition-all duration-300 hover:scale-[1.02]">
       
       {/* Cabeçalho */}
       <div className="flex justify-between items-center">
@@ -52,7 +53,12 @@ const AvailabilityCard: React.FC<AvailabilityCardProps> = ({
       )}
 
       {/* Botão de ação */}
-      <button className="w-full mt-4 py-2 px-4 rounded-xl bg-[#6600cc] hover:bg-[#7a3aff] text-white font-medium transition-all duration-200 shadow-md hover:shadow-lg hover:shadow-[#7a3aff]/40">
+      <button
+        className="w-full mt-4 py-2 px-4 rounded-xl bg-[#6600cc] hover:bg-[#d9c9ff] text-[#1a1a1a] font-semibold transition-colors shadow-md hover:shadow-lg hover:shadow-[#7a3aff]/40
+                   focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-1"
+        type="button"
+        aria-label={`Candidatar-se para o ${type} em ${date}`}
+      >
         Candidatar-se
       </button>
     </div>

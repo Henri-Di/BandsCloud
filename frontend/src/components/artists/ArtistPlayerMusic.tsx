@@ -167,10 +167,21 @@ const TopHitsPlaylist: React.FC = () => {
           return (
             <li
               key={idx}
-              className={`flex items-center justify-between rounded-lg p-3 cursor-pointer transition-colors ${
-                isCurrent ? "bg-purple-700 shadow-lg" : "bg-[#2a2a2a] hover:bg-[#3a3a3a]"
-              }`}
+              className={`flex items-center justify-between rounded-lg p-3 cursor-pointer transition-colors
+                ${
+                  isCurrent
+                    ? "bg-purple-700 shadow-lg shadow-purple-900/80 text-white"
+                    : "bg-[#2a2a2a] hover:bg-gray-300 hover:text-gray-900 shadow-md hover:shadow-lg hover:shadow-gray-400"
+                }
+              `}
               onClick={() => playPauseSong(idx)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  playPauseSong(idx);
+                }
+              }}
             >
               <div className="flex items-center gap-3 sm:gap-4">
                 <img
@@ -184,11 +195,20 @@ const TopHitsPlaylist: React.FC = () => {
                 </div>
               </div>
               <button
-                className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-md"
+                className={`
+                  p-2 rounded-full shadow-md transition-colors duration-200
+                  ${
+                    isCurrent && isPlaying
+                      ? "bg-purple-600 text-white hover:bg-purple-700 hover:shadow-lg"
+                      : "bg-purple-500 text-purple-100 hover:bg-purple-600 hover:text-white hover:shadow-md"
+                  }
+                `}
                 onClick={(e) => {
                   e.stopPropagation();
                   playPauseSong(idx);
                 }}
+                aria-label={isCurrent && isPlaying ? "Pause" : "Play"}
+                title={isCurrent && isPlaying ? "Pause" : "Play"}
               >
                 {isCurrent && isPlaying ? <FaPause size={16} /> : <FaPlay size={16} />}
               </button>
@@ -218,19 +238,36 @@ const TopHitsPlaylist: React.FC = () => {
             </div>
 
             <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
-              <button onClick={prevSong} className="text-purple-300 hover:text-purple-500 p-2 rounded">
+              <button
+                onClick={prevSong}
+                className="text-purple-300 hover:text-white p-2 rounded transition-colors duration-200 cursor-pointer"
+                aria-label="Previous Song"
+                title="Previous"
+              >
                 <FaStepBackward size={20} />
               </button>
               <button
                 onClick={() => playPauseSong(currentSongIndex)}
-                className="text-purple-300 hover:text-purple-500 p-3 rounded-full bg-purple-600 shadow-md"
+                className="text-purple-300 hover:text-white p-3 rounded-full bg-purple-600 shadow-md transition-colors duration-200 cursor-pointer"
+                aria-label={isPlaying ? "Pause" : "Play"}
+                title={isPlaying ? "Pause" : "Play"}
               >
                 {isPlaying ? <FaPause size={22} /> : <FaPlay size={22} />}
               </button>
-              <button onClick={nextSong} className="text-purple-300 hover:text-purple-500 p-2 rounded">
+              <button
+                onClick={nextSong}
+                className="text-purple-300 hover:text-white p-2 rounded transition-colors duration-200 cursor-pointer"
+                aria-label="Next Song"
+                title="Next"
+              >
                 <FaStepForward size={20} />
               </button>
-              <button onClick={toggleMute} className="text-purple-300 hover:text-purple-500 p-2 rounded">
+              <button
+                onClick={toggleMute}
+                className="text-purple-300 hover:text-white p-2 rounded transition-colors duration-200 cursor-pointer"
+                aria-label={isMuted ? "Unmute" : "Mute"}
+                title={isMuted ? "Unmute" : "Mute"}
+              >
                 {isMuted ? <FaVolumeMute size={20} /> : <FaVolumeUp size={20} />}
               </button>
               <input
@@ -241,6 +278,7 @@ const TopHitsPlaylist: React.FC = () => {
                 value={volume}
                 onChange={handleVolumeChange}
                 className="w-28 sm:w-36 accent-purple-400 cursor-pointer"
+                aria-label="Volume control"
               />
             </div>
           </div>
@@ -258,6 +296,7 @@ const TopHitsPlaylist: React.FC = () => {
               value={progress}
               onChange={handleSeek}
               className="flex-grow accent-purple-400 cursor-pointer rounded"
+              aria-label="Seek bar"
             />
             <span className="text-xs sm:text-sm text-gray-400 w-10 tabular-nums">
               {formatTime(duration)}

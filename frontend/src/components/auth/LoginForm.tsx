@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FiMail, FiLock } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'; // corrigido import jwtDecode
 import { useAuth } from '../../context/AuthContext';
+import DashboardAccessButtons from '../auth/AccesTest'; // ajuste o caminho conforme necessário
 
 interface LoginFormData {
   email: string;
@@ -28,6 +29,8 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  const [showTestAccessOptions, setShowTestAccessOptions] = useState(false);
+
   const onSubmit = async (data: LoginFormData) => {
     clearErrors();
     try {
@@ -51,11 +54,45 @@ const Login: React.FC = () => {
     }
   };
 
+  // Função que recebe o role selecionado no DashboardAccessButtons e executa login de teste
+  const handleTestAccessRole = async (role: 'artist' | 'venue' | 'fan') => {
+    setShowTestAccessOptions(false);
+    clearErrors();
+
+    // Defina os e-mails e senhas de teste conforme seu backend
+    let testEmail = '';
+    const testPassword = 'senha123';
+
+    if (role === 'artist') testEmail = 'teste-artist@exemplo.com';
+    else if (role === 'venue') testEmail = 'teste-venue@exemplo.com';
+    else if (role === 'fan') testEmail = 'teste-fan@exemplo.com';
+
+    try {
+      const token = await login(testEmail, testPassword);
+      const decoded: DecodedToken = jwtDecode(token);
+
+      if (decoded.roles.includes('ROLE_ARTIST')) {
+        navigate('/artist');
+      } else if (decoded.roles.includes('ROLE_VENUE')) {
+        navigate('/venue');
+      } else if (decoded.roles.includes('ROLE_FAN')) {
+        navigate('/fan');
+      } else {
+        navigate('/unauthorized');
+      }
+    } catch (error: any) {
+      setError('root', {
+        type: 'server',
+        message: error.message || 'Erro ao fazer login com acesso teste',
+      });
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-950 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-gray-950 px-4 relative">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-md p-8 sm:p-10 bg-[#1e1e2f] text-white rounded-2xl shadow-2xl border border-purple-700 animate-fade-in"
+        className="w-full max-w-md p-8 sm:p-10 bg-[#1e1e2f] text-white rounded-2xl shadow-2xl border border-purple-700 animate-fade-in z-10"
         noValidate
       >
         <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 text-purple-300">
@@ -137,7 +174,25 @@ const Login: React.FC = () => {
         >
           {isSubmitting ? 'Entrando...' : 'Entrar'}
         </button>
+
+        {/* Botão Acesso Teste abre o DashboardAccessButtons */}
+        <button
+          type="button"
+          onClick={() => setShowTestAccessOptions(true)}
+          disabled={isSubmitting}
+          className="w-full mt-4 py-2 rounded-xl bg-gray-700 hover:bg-gray-600 text-gray-300 font-semibold text-md shadow-md transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Acesso Teste
+        </button>
       </form>
+
+      {/* Renderiza as opções de dashboard para acesso teste */}
+      {showTestAccessOptions && (
+        <DashboardAccessButtons
+          disabled={isSubmitting}
+          onAccess={handleTestAccessRole}
+        />
+      )}
     </div>
   );
 };

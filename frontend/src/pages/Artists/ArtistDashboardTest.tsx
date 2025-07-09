@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { FiMusic, FiBriefcase, FiUser, FiHeadphones, FiUsers } from "react-icons/fi";
 import Navbar from "../../components/shared/NavbarArtist";
 import MusicPlayer from "../../components/artists/ArtistPlayerAlbum";
@@ -7,9 +9,7 @@ import TopHitsPlaylist from "../../components/artists/ArtistPlayerMusic";
 import ProfileSettingsCard from "../../components/artists/ArtistCardBio";
 import Footer from "../../components/shared/Footer";
 import "../../styles/OverView.css";
-import LogoutButton from "../../components/auth/Logout";
-import LoadingSpinnerLogout from "../../components/shared/LoadingSpinnerLogout"; // Importa o loading spinner
-import { useAuth } from "../../context/AuthContext"; // Importa o hook do contexto
+import LoadingSpinnerArtist from "../../components/shared/LoadingSpinner";
 
 const albums = [
   {
@@ -128,15 +128,23 @@ const fans = [
   },
 ];
 
-export default function ArtistDashboard() {
-  const { loadingLogout } = useAuth();
+export default function ArtistDashboardTest() {
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-  // Se estiver carregando logout, renderiza o spinner full screen
-  if (loadingLogout) {
-    return <LoadingSpinnerLogout />;
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 2500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <LoadingSpinnerArtist />;
   }
 
-  // Funções de exemplo para os botões do perfil
+  const handleLogout = () => {
+    navigate("/login");
+  };
+
   const handleEditProfile = () => alert("Editar perfil clicado");
   const handleChangePassword = () => alert("Alterar senha clicado");
   const handlePrivacySettings = () => alert("Configurações de privacidade clicado");
@@ -147,11 +155,22 @@ export default function ArtistDashboard() {
       <Navbar />
 
       <main className="pt-32 px-4 sm:px-6 md:px-8 pb-20 max-w-7xl mx-auto flex-grow space-y-16">
-        {/* Card de perfil no topo */}
+
+        {/* Botão Sair */}
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md text-white font-semibold transition"
+          >
+            Sair
+          </button>
+        </div>
+
         <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mb-8 border-l-4 border-purple-500 pl-4">
           <FiUser size={26} />
           <span>Perfil </span>
         </h2>
+
         <ProfileSettingsCard
           userName="Artista BandsCloud"
           email="artista@example.com"
@@ -159,10 +178,8 @@ export default function ArtistDashboard() {
           onChangePassword={handleChangePassword}
           onPrivacySettings={handlePrivacySettings}
           onNotificationSettings={handleNotificationSettings}
-          logoutButton={<LogoutButton />}
         />
 
-        {/* Título: Playlist */}
         <section>
           <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mb-8 border-l-4 border-purple-500 pl-4">
             <FiHeadphones size={26} />
@@ -172,7 +189,6 @@ export default function ArtistDashboard() {
           <TopHitsPlaylist />
         </section>
 
-        {/* Título: Álbuns */}
         <section>
           <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-10 border-l-4 border-purple-500 pl-4">
             <FiMusic size={28} />
@@ -198,7 +214,6 @@ export default function ArtistDashboard() {
           </div>
         </section>
 
-        {/* Título: Disponibilidade para Shows/Eventos */}
         <section>
           <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-8 border-l-4 border-purple-500 pl-4">
             <FiBriefcase size={26} />
@@ -219,7 +234,6 @@ export default function ArtistDashboard() {
           </div>
         </section>
 
-        {/* Título: Seguidores/Fãs */}
         <section>
           <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-8 border-l-4 border-purple-500 pl-4">
             <FiUsers size={26} />

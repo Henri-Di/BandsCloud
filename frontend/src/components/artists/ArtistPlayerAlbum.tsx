@@ -26,7 +26,6 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
   const [progress, setProgress] = useState(0);
   const [volume, setVolume] = useState(0.7);
   const [isMuted, setIsMuted] = useState(false);
-
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
 
@@ -105,39 +104,62 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
   }, []);
 
   return (
-    <div className="bg-gradient-to-r from-[#6600cc] via-[#7a3aff] to-[#9c6cff] rounded-xl p-5 text-white shadow-2xl flex flex-col gap-4 overflow-hidden max-w-[300px] w-full mx-auto">
+    <div
+      className="
+        bg-gradient-to-r from-purple-900 via-purple-700 to-purple-800 
+        rounded-2xl p-6 text-white 
+        shadow-[0_8px_24px_rgba(110,46,160,0.6)] 
+        flex flex-col gap-5 overflow-hidden max-w-[320px] w-full mx-auto
+        select-none
+      "
+    >
       {/* Capa do álbum */}
       <img
         src={coverUrl}
         alt={`${artistName} - ${albumName}`}
-        className="w-32 h-32 rounded-xl shadow-lg object-cover mx-auto"
+        className="
+          w-36 h-36 rounded-2xl shadow-xl object-cover mx-auto
+          ring-4 ring-purple-800
+          transition-transform duration-300 hover:scale-105
+        "
         loading="lazy"
       />
 
       {/* Info */}
       <div className="text-center">
-        <h2 className="text-xl font-bold drop-shadow-lg">{albumName}</h2>
-        <p className="text-sm text-purple-200 drop-shadow">{artistName}</p>
+        <h2 className="text-2xl font-extrabold drop-shadow-lg tracking-wide">
+          {albumName}
+        </h2>
+        <p className="text-md text-purple-300 drop-shadow-md mt-1">{artistName}</p>
       </div>
 
       {/* Barra de progresso */}
-      <div className="relative w-full h-2 rounded-full bg-purple-900/40 cursor-pointer hover:bg-purple-900/70 transition-colors">
+      <div
+        className="
+          relative w-full h-2 rounded-full bg-purple-900/50 
+          cursor-pointer hover:bg-purple-700/70 transition-colors
+          shadow-inner
+        "
+      >
         <input
           type="range"
           min={0}
           max={100}
           value={progress}
           onChange={onSeek}
-          className="absolute top-0 left-0 w-full h-2 rounded-full appearance-none bg-transparent cursor-pointer"
+          className="
+            absolute top-0 left-0 w-full h-2 rounded-full appearance-none bg-transparent cursor-pointer
+            focus:outline-none
+          "
           style={{
-            background: `linear-gradient(to right, #c4a7e7 0%, #c4a7e7 ${progress}%, transparent ${progress}%, transparent 100%)`,
+            background: `linear-gradient(to right, #b88de0 0%, #b88de0 ${progress}%, transparent ${progress}%, transparent 100%)`,
           }}
           title="Seek"
         />
       </div>
 
       {/* Tempo */}
-      <div className="flex justify-between text-xs font-mono text-purple-200 select-none">
+      <div className="flex justify-between text-xs font-mono text-purple-300 select-none">
         <span>{formatTime(currentTime)}</span>
         <span>{formatTime(duration)}</span>
       </div>
@@ -146,40 +168,61 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
       <div className="flex items-center justify-between flex-wrap gap-3">
         <button
           aria-label="Previous"
-          className="p-2 rounded-full hover:bg-purple-300/30 transition-colors text-purple-200"
+          className="
+            p-3 rounded-full 
+            text-purple-300 hover:text-white 
+            hover:bg-purple-700/60 transition-colors 
+            shadow-md hover:shadow-white/40 active:scale-95
+            duration-200 cursor-pointer
+          "
           title="Previous (não implementado)"
         >
-          <FaBackward size={18} />
+          <FaBackward size={20} />
         </button>
 
         <button
           aria-label={isPlaying ? "Pause" : "Play"}
           onClick={togglePlay}
-          className="p-4 bg-purple-200 rounded-full text-[#6600cc] shadow-lg hover:scale-110 transition-transform active:scale-95"
+          className="
+            p-5 bg-purple-300 rounded-full text-purple-900 
+            shadow-lg hover:text-white hover:bg-purple-800 
+            hover:shadow-white transition-all
+            hover:scale-110 active:scale-95 duration-300 cursor-pointer
+          "
         >
-          {isPlaying ? <FaPause size={22} /> : <FaPlay size={22} />}
+          {isPlaying ? <FaPause size={24} /> : <FaPlay size={24} />}
         </button>
 
         <button
           aria-label="Next"
-          className="p-2 rounded-full hover:bg-purple-300/30 transition-colors text-purple-200"
+          className="
+            p-3 rounded-full 
+            text-purple-300 hover:text-white 
+            hover:bg-purple-700/60 transition-colors 
+            shadow-md hover:shadow-white/40 active:scale-95
+            duration-200 cursor-pointer
+          "
           title="Next (não implementado)"
         >
-          <FaForward size={18} />
+          <FaForward size={20} />
         </button>
 
         {/* Volume */}
-        <div className="flex items-center space-x-2 w-full max-w-[120px] ml-auto">
+        <div className="flex items-center space-x-3 w-full max-w-[130px] ml-auto">
           <button
             onClick={toggleMute}
             aria-label={isMuted ? "Unmute" : "Mute"}
-            className="text-purple-200 hover:text-purple-400 transition-colors"
+            className="
+              text-purple-300 hover:text-white 
+              shadow-md hover:shadow-white/40 rounded-full p-1
+              transition-colors duration-200 cursor-pointer
+            "
             title={isMuted ? "Unmute" : "Mute"}
           >
             {isMuted || volume === 0 ? (
-              <FaVolumeMute size={18} />
+              <FaVolumeMute size={20} />
             ) : (
-              <FaVolumeUp size={18} />
+              <FaVolumeUp size={20} />
             )}
           </button>
           <input
@@ -189,7 +232,12 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({
             step={0.01}
             value={volume}
             onChange={onVolumeChange}
-            className="w-full h-1 rounded-lg cursor-pointer accent-purple-300"
+            className="
+              w-full h-1 rounded-lg cursor-pointer accent-purple-400
+              shadow-inner
+              hover:accent-gray-200
+              transition-colors duration-200
+            "
             title="Volume"
           />
         </div>
