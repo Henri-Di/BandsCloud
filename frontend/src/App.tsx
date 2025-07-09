@@ -2,7 +2,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/auth/Login';
 import ArtistDashboard from './pages/Artists/ArtistDashboard';
-import ArtistDashboardTest from './pages/Artists/ArtistDashboardTest';
+import ArtistDashboardTest from './pages/Artists-Test/ArtistDashboardTest';
 import VenueDashboard from './pages/Venues/VenueDashboard';
 import FanDashboard from './pages/Fans/FanDashboard';
 import Unauthorized from './pages/Unauthorized';
@@ -16,16 +16,15 @@ const App = () => {
         <Route path="/login" element={<Login />} />
 
         {/* Rota de teste sem proteção */}
-        <Route path="/artist" element={<ArtistDashboardTest />} />
-
-        <Route
-          path="/artist"
-          element={
-            <PrivateRoute allowedRoles={['ROLE_ARTIST']}>
-              <ArtistDashboard />
-            </PrivateRoute>
-          }
-        />
+<Route path="/artist-test" element={<ArtistDashboardTest />} /> 
+<Route
+  path="/artist"
+  element={
+    <PrivateRoute allowedRoles={['ROLE_ARTIST']}>
+      <ArtistDashboard />
+    </PrivateRoute>
+  }
+/>
         <Route
           path="/venue"
           element={

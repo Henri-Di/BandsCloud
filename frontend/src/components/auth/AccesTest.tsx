@@ -17,7 +17,7 @@ const DashboardAccessButtons: React.FC<DashboardAccessButtonsProps> = ({
 
     switch (role) {
       case 'artist':
-        navigate('/artist');
+        navigate('/artist-test');
         break;
       case 'venue':
         navigate('/venue');
