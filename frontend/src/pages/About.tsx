@@ -3,7 +3,7 @@ import MissionSection from "./MissionSection";
 import ValuesSection from "./ValuesSection";
 import ContributionSection from "./ContributionSection";
 import SponsorshipSection from "./SponsorshipSection";
-import NavbarHome from "../components/shared/NavbarHome";
+import NavbarAbout from "../components/shared/NavbarAbout";
 import Footer from "../components/shared/Footer";
 import { FiArrowUp } from "react-icons/fi";
 
@@ -49,7 +49,7 @@ export default function About() {
 
   return (
     <div className="bg-gray-950 text-white min-h-screen pt-16 relative">
-      <NavbarHome />
+      <NavbarAbout />
 
       {/* Seção: Missão */}
       <div id="perfil" className={getSectionClass("perfil")}>

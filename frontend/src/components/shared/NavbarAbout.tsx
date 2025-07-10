@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import {
   FiCloud,
   FiHome,
+  FiUsers,
+  FiHeart,
+  FiGift,
+  FiDollarSign,
   FiMenu,
   FiX,
 } from "react-icons/fi";
@@ -13,6 +17,10 @@ const Navbar: React.FC = () => {
   const menuItems = [
     { label: "Home", href: "/", icon: <FiHome /> },
     { label: "BandsCloud", href: "/about", icon: <FiCloud /> },
+    { label: "Missão", href: "#perfil", icon: <FiHeart /> },
+    { label: "Valores", href: "#musicas", icon: <FiGift /> },
+    { label: "Contribuição", href: "#albuns", icon: <FiUsers /> },
+    { label: "Patrocínios", href: "#eventos", icon: <FiDollarSign /> },
   ];
 
   return (

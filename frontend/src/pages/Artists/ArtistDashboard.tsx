@@ -10,6 +10,7 @@ import "../../styles/OverView.css";
 import LogoutButton from "../../components/auth/Logout";
 import LoadingSpinnerLogout from "../../components/shared/LoadingSpinnerLogout";
 import { useAuth } from "../../context/AuthContext";
+import ScrollTopButton from "../../components/shared/ScrollTopButton";
 
 const albums = [
   {
@@ -130,7 +131,7 @@ const fans = [
 
 export default function ArtistDashboard() {
   const { loadingLogout } = useAuth();
-
+  
   if (loadingLogout) {
     return <LoadingSpinnerLogout />;
   }
@@ -206,7 +207,7 @@ export default function ArtistDashboard() {
       </div>
 
       <main className="pt-32 px-4 sm:px-6 md:px-8 pb-20 max-w-7xl mx-auto flex-grow relative z-10 space-y-16">
-        {/* Card de perfil no topo */}
+        {/* Perfil */}
         <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mb-8 border-l-4 border-purple-500 pl-4">
           <FiUser size={26} />
           <span>Perfil </span>
@@ -221,30 +222,25 @@ export default function ArtistDashboard() {
           logoutButton={<LogoutButton />}
         />
 
-        {/* Título: Playlist */}
+        {/* Músicas */}
         <section>
           <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mb-8 border-l-4 border-purple-500 pl-4">
             <FiHeadphones size={26} />
             <span>Músicas</span>
           </h2>
-
           <TopHitsPlaylist />
         </section>
 
-        {/* Título: Álbuns */}
+        {/* Álbuns */}
         <section>
           <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-10 border-l-4 border-purple-500 pl-4">
             <FiMusic size={28} />
             <span>Álbuns</span>
           </h2>
-
           <div className="overflow-x-auto scrollbar-custom">
             <div className="flex flex-col gap-6 md:flex-row md:flex-nowrap md:gap-6 md:pb-4">
               {albums.map((album, idx) => (
-                <div
-                  key={idx}
-                  className="flex-shrink-0 w-full max-w-md md:w-[300px] mx-auto md:mx-0"
-                >
+                <div key={idx} className="flex-shrink-0 w-full max-w-md md:w-[300px] mx-auto md:mx-0">
                   <MusicPlayer
                     artistName={album.artistName}
                     albumName={`Album ${idx + 1}`}
@@ -257,13 +253,12 @@ export default function ArtistDashboard() {
           </div>
         </section>
 
-        {/* Título: Disponibilidade para Shows/Eventos */}
+        {/* Oportunidades */}
         <section>
           <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-8 border-l-4 border-purple-500 pl-4">
             <FiBriefcase size={26} />
             <span>Eventos e Shows</span>
           </h2>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {opportunities.map((op, idx) => (
               <AvailabilityCard
@@ -278,13 +273,12 @@ export default function ArtistDashboard() {
           </div>
         </section>
 
-        {/* Título: Seguidores/Fãs */}
+        {/* Fãs */}
         <section>
           <h2 className="flex items-center gap-3 text-purple-300 text-2xl sm:text-3xl font-semibold mt-16 mb-8 border-l-4 border-purple-500 pl-4">
             <FiUsers size={26} />
             <span>Seguidores - Fãs</span>
           </h2>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {fans.map((fan, idx) => (
               <FanCard
@@ -298,7 +292,7 @@ export default function ArtistDashboard() {
           </div>
         </section>
       </main>
-
+      <ScrollTopButton />
       <Footer />
     </div>
   );
