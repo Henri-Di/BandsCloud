@@ -36,11 +36,8 @@ export default function Home() {
     <div className="relative bg-gradient-to-br from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a] text-white min-h-screen flex flex-col overflow-hidden">
       <Navbar />
 
-      {/* Background icons */}
-      <div
-        className="absolute inset-0 z-0 pointer-events-none select-none"
-        aria-hidden="true"
-      >
+      {/* Ícones de fundo flutuantes */}
+      <div className="absolute inset-0 z-0 pointer-events-none select-none" aria-hidden="true">
         {[...Array(6)].map((_, i) => (
           <FiCloud
             key={`cloud-${i}`}
@@ -81,55 +78,34 @@ export default function Home() {
 
       <main className="relative z-10 pt-28 px-4 sm:px-8 pb-20 max-w-7xl mx-auto space-y-32">
         {/* Hero */}
-        <section
-          className="text-center space-y-6 select-none"
-          aria-label="Introdução à plataforma BandsCloud"
-        >
-          <div
-            className="inline-flex justify-center items-center gap-3 text-purple-400 text-5xl sm:text-6xl font-bold animate-fade-in cursor-default group"
-            tabIndex={-1}
-          >
-            <FiCloud
-              size={48}
-              className="transition-transform duration-700 group-hover:scale-110 group-hover:text-purple-300"
-              aria-hidden="true"
-            />
+        <section className="text-center space-y-6 select-none" aria-label="Introdução à plataforma BandsCloud">
+          <div className="inline-flex justify-center items-center gap-3 text-purple-400 text-5xl sm:text-6xl font-bold animate-fade-in cursor-default group" tabIndex={-1}>
+            <FiCloud size={48} className="transition-transform duration-700 group-hover:scale-110 group-hover:text-purple-300" aria-hidden="true" />
             <span className="select-text">BandsCloud</span>
           </div>
           <p className="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
-            Conectando{" "}
-            <span className="text-purple-300 font-semibold">artistas independentes</span>,{" "}
-            <span className="text-purple-300 font-semibold">espaços culturais</span> e{" "}
-            <span className="text-purple-300 font-semibold">fãs de música</span> em uma só plataforma.
+            Conectando <span className="text-purple-300 font-semibold">artistas independentes</span>, <span className="text-purple-300 font-semibold">espaços culturais</span> e <span className="text-purple-300 font-semibold">fãs de música</span> em uma só plataforma.
           </p>
         </section>
 
-        {/* Seção botão Login */}
-        <section
-          className="flex justify-center"
-          aria-label="Botão para acessar a página de login"
-        >
+        {/* Botão Login */}
+        <section className="flex justify-center" aria-label="Botão para acessar a página de login">
           <button
-          type="button"
-          onClick={() => navigate("/login")}
-          className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 hover:scale-105
-             active:scale-95 focus:bg-purple-800
-             text-white font-semibold px-8 py-4 rounded-full shadow-lg
-             transition transform duration-300 focus:outline-none focus:ring-4 focus:ring-purple-500/60
-             select-none text-lg"
-           aria-label="Acessar página de login"
-        >
-          <FiLogIn size={24} aria-hidden="true" />
+            type="button"
+            onClick={() => navigate("/login")}
+            className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 hover:scale-105
+                       active:scale-95 focus:bg-purple-800 text-white font-semibold px-8 py-4
+                       rounded-full shadow-lg transition transform duration-300 focus:outline-none
+                       focus:ring-4 focus:ring-purple-500/60 select-none text-lg"
+            aria-label="Acessar página de login"
+          >
+            <FiLogIn size={24} aria-hidden="true" />
             Entrar na sua conta
-         </button>
-
+          </button>
         </section>
 
-        {/* Seções de destaque */}
-        <section
-          className="grid md:grid-cols-3 gap-10 text-center"
-          aria-label="Seções para Artistas, Espaços Culturais e Fãs"
-        >
+        {/* Seções principais */}
+        <section className="grid md:grid-cols-3 gap-10 text-center" aria-label="Seções para Artistas, Espaços Culturais e Fãs">
           {[
             {
               icon: <FiPlay />,
@@ -169,19 +145,11 @@ export default function Home() {
               }}
               onClick={() => alert(`Você clicou na seção: ${title}`)}
             >
-              <div
-                className="text-purple-400 mb-4 transition-transform duration-300 group-hover:scale-110"
-                style={{ fontSize: "3rem" }}
-                aria-hidden="true"
-              >
+              <div className="text-purple-400 mb-4 transition-transform duration-300 group-hover:scale-110" style={{ fontSize: "3rem" }} aria-hidden="true">
                 {icon}
               </div>
-              <h3 className="text-2xl font-bold text-purple-300 mb-3 group-hover:text-purple-400 transition">
-                {title}
-              </h3>
-              <p className="text-white/80 text-sm mb-6 group-hover:text-white transition leading-relaxed">
-                {desc}
-              </p>
+              <h3 className="text-2xl font-bold text-purple-300 mb-3 group-hover:text-purple-400 transition">{title}</h3>
+              <p className="text-white/80 text-sm mb-6 group-hover:text-white transition leading-relaxed">{desc}</p>
               <button
                 type="button"
                 className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 active:scale-95
@@ -201,51 +169,20 @@ export default function Home() {
         </section>
 
         {/* Recursos da plataforma */}
-        <section
-          className="space-y-8 text-center"
-          aria-label="Recursos do BandsCloud"
-        >
+        <section className="space-y-8 text-center" aria-label="Recursos do BandsCloud">
           <h2 className="flex justify-center items-center gap-2 text-3xl sm:text-4xl font-bold text-purple-300 select-none">
-            <FiStar
-              size={32}
-              className="text-purple-400 animate-pulse"
-              aria-hidden="true"
-            />
+            <FiStar size={32} className="text-purple-400 animate-pulse" aria-hidden="true" />
             Recursos do BandsCloud
           </h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
             {[
-              {
-                icon: <FiMusic />,
-                title: "Streaming de Músicas",
-                desc: "Ouça e compartilhe músicas diretamente na plataforma.",
-              },
-              {
-                icon: <FiBriefcase />,
-                title: "Oportunidades Culturais",
-                desc: "Eventos, shows e feiras abertas para inscrição.",
-              },
-              {
-                icon: <FiUsers />,
-                title: "Comunidade de Fãs",
-                desc: "Construa sua base de seguidores e receba apoio.",
-              },
-              {
-                icon: <FiHeadphones />,
-                title: "Playlists Personalizadas",
-                desc: "Monte playlists e compartilhe com o público.",
-              },
-              {
-                icon: <FiStar />,
-                title: "Destaques e Rankings",
-                desc: "Artistas em alta ganham destaque na home.",
-              },
-              {
-                icon: <FiCloud />,
-                title: "Ambiente Seguro e Escalável",
-                desc: "Plataforma em nuvem com desempenho otimizado.",
-              },
+              { icon: <FiMusic />, title: "Streaming de Músicas", desc: "Ouça e compartilhe músicas diretamente na plataforma." },
+              { icon: <FiBriefcase />, title: "Oportunidades Culturais", desc: "Eventos, shows e feiras abertas para inscrição." },
+              { icon: <FiUsers />, title: "Comunidade de Fãs", desc: "Construa sua base de seguidores e receba apoio." },
+              { icon: <FiHeadphones />, title: "Playlists Personalizadas", desc: "Monte playlists e compartilhe com o público." },
+              { icon: <FiStar />, title: "Destaques e Rankings", desc: "Artistas em alta ganham destaque na home." },
+              { icon: <FiCloud />, title: "Ambiente Seguro e Escalável", desc: "Plataforma em nuvem com desempenho otimizado." },
             ].map((item, idx) => (
               <article
                 key={idx}
@@ -262,69 +199,70 @@ export default function Home() {
                 }}
                 onClick={() => alert(`Recurso selecionado: ${item.title}`)}
               >
-                <div
-                  className="text-purple-400 flex justify-center items-center mb-2"
-                  style={{ fontSize: "3rem" }}
-                  aria-hidden="true"
-                >
+                <div className="text-purple-400 flex justify-center items-center mb-2" style={{ fontSize: "3rem" }} aria-hidden="true">
                   {React.cloneElement(item.icon, {
                     className: "transition-transform duration-300 hover:scale-110",
                   })}
                 </div>
-                <h3 className="text-lg font-semibold text-purple-300 text-center mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-white/80 text-sm text-center max-w-xs leading-relaxed">
-                  {item.desc}
-                </p>
+                <h3 className="text-lg font-semibold text-purple-300 text-center mb-2">{item.title}</h3>
+                <p className="text-white/80 text-sm text-center max-w-xs leading-relaxed">{item.desc}</p>
               </article>
             ))}
           </div>
         </section>
 
-        {/* Planos de Cadastro Mensais */}
-        <section
-          className="space-y-8 text-center"
-          aria-label="Planos de Cadastro Mensais"
-        >
+        {/* Planos Premium */}
+        <section className="space-y-8 text-center" aria-label="Planos de Cadastro Mensais">
           <h2 className="flex justify-center items-center gap-2 text-3xl sm:text-4xl font-bold text-purple-300 select-none mb-10">
-            <FiPlay
-              size={32}
-              className="text-purple-400 animate-pulse"
-              aria-hidden="true"
-            />
+            <FiPlay size={32} className="text-purple-400 animate-pulse" aria-hidden="true" />
             Pacotes Premium
           </h2>
+
           <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto px-4 sm:px-8">
             {[
               {
                 icon: <FiMusic />,
-                title: "Plano para Artistas",
+                title: (
+                  <span className="flex items-center gap-2">
+                    <FiMusic className="text-purple-400" />
+                    Plano Artista Pro
+                  </span>
+                ),
                 features: [
-                  "Cadastro ilimitado de músicas e playlists",
-                  "Gerenciamento de shows e eventos",
-                  "Interação direta com fãs",
-                  "Relatórios de audiência e engajamento",
+                  "Publique músicas e playlists sem limites",
+                  "Gerencie sua agenda de shows e eventos facilmente",
+                  "Interaja diretamente com seus fãs pela plataforma",
+                  "Acompanhe relatórios detalhados de audiência e engajamento",
                 ],
               },
               {
                 icon: <FiBriefcase />,
-                title: "Plano para Espaços Culturais",
+                title: (
+                  <span className="flex items-center gap-2">
+                    <FiBriefcase className="text-purple-400" />
+                    Plano Cultural Pro
+                  </span>
+                ),
                 features: [
-                  "Publicação ilimitada de eventos e shows",
-                  "Busca avançada por artistas",
-                  "Gerenciamento de ingressos",
-                  "Promoção em destaque na plataforma",
+                  "Divulgue eventos e shows de forma ilimitada",
+                  "Encontre artistas ideais com ferramentas de busca inteligente",
+                  "Controle ingressos e presença com eficiência",
+                  "Destaque seu espaço nas recomendações da plataforma",
                 ],
               },
               {
                 icon: <FiUsers />,
-                title: "Plano para Usuários (Fãs)",
+                title: (
+                  <span className="flex items-center gap-2">
+                    <FiUsers className="text-purple-400" />
+                    Plano Fã Premium
+                  </span>
+                ),
                 features: [
-                  "Acesso a playlists personalizadas",
-                  "Seguir artistas favoritos",
-                  "Participação em eventos exclusivos",
-                  "Receber recomendações personalizadas",
+                  "Monte playlists personalizadas com seus artistas favoritos",
+                  "Siga bandas e receba atualizações em tempo real",
+                  "Garanta acesso exclusivo a eventos e lançamentos",
+                  "Receba sugestões musicais baseadas no seu estilo",
                 ],
               },
             ].map(({ icon, title, features }, idx) => (
@@ -341,24 +279,17 @@ export default function Home() {
                     e.currentTarget.click();
                   }
                 }}
-                onClick={() => alert(`Plano selecionado: ${title}`)}
+                onClick={() => alert(`Plano selecionado`)}
               >
-                <div
-                  className="text-purple-400 mb-4 transition-transform duration-300 group-hover:scale-110"
-                  style={{ fontSize: "3rem" }}
-                  aria-hidden="true"
-                >
+                <div className="text-purple-400 mb-4 transition-transform duration-300 group-hover:scale-110" style={{ fontSize: "3rem" }} aria-hidden="true">
                   {icon}
                 </div>
-                <h3 className="text-2xl font-bold text-purple-300 mb-6 group-hover:text-purple-400 transition">
+                <h3 className="text-2xl font-bold text-purple-300 mb-6 group-hover:text-purple-400 transition text-center">
                   {title}
                 </h3>
                 <ul className="text-white/80 text-sm mb-6 text-left list-disc list-inside space-y-2 max-w-md">
                   {features.map((feature, i) => (
-                    <li
-                      key={i}
-                      className="group-hover:text-white transition leading-relaxed"
-                    >
+                    <li key={i} className="group-hover:text-white transition leading-relaxed">
                       {feature}
                     </li>
                   ))}
@@ -370,9 +301,9 @@ export default function Home() {
                              font-medium px-6 py-2 rounded-full shadow-sm hover:shadow-md transition"
                   onClick={(e) => {
                     e.stopPropagation();
-                    alert(`Assinar plano: ${title}`);
+                    alert(`Assinar plano`);
                   }}
-                  aria-label={`Botão para assinar o ${title}`}
+                  aria-label="Botão para assinar o plano"
                 >
                   Assinar
                 </button>

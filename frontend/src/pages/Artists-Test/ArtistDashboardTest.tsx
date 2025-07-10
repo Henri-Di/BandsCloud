@@ -16,7 +16,7 @@ import TopHitsPlaylist from "../../components/artists/ArtistPlayerMusic";
 import ProfileSettingsCard from "../../components/artists/ArtistCardBio";
 import Footer from "../../components/shared/Footer";
 import "../../styles/OverView.css";
-import LoadingSpinnerArtist from "../../components/shared/LoadingSpinner";
+import LoadingSpinnerArtist from "../../components/shared/LoadingSpinnerDashboard";
 
 const albums = [
   {

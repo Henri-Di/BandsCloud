@@ -1,6 +1,6 @@
 import { FiCloud, FiMusic } from "react-icons/fi";
 
-export default function LoadingSpinner() {
+export default function LoadingSpinnerLogin() {
   return (
     <div className="relative flex items-center justify-center min-h-screen bg-gray-950 text-white overflow-hidden">
       {/* Ícones flutuantes no background */}
@@ -61,7 +61,7 @@ export default function LoadingSpinner() {
         </div>
 
         <h2 className="text-2xl sm:text-3xl font-extrabold text-[#a076ff] drop-shadow-md animate-pulse">
-          Acessando Dashboard
+            Acesse seu BandsCloud
         </h2>
 
         <div className="relative w-64 h-2 rounded-full bg-purple-900/40 overflow-hidden">
