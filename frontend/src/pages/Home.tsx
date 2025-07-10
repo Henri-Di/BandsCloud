@@ -38,48 +38,53 @@ export default function Home() {
     <div className="relative bg-gradient-to-br from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a] text-white min-h-screen flex flex-col overflow-hidden">
       <Navbar />
 
-      {/* Ícones de fundo flutuantes */}
-      <div
-        className="absolute inset-0 z-0 pointer-events-none select-none"
-        aria-hidden="true"
-      >
-        {[...Array(6)].map((_, i) => (
-          <FiCloud
-            key={`cloud-${i}`}
-            className="absolute text-white/10 animate-cloud float-animation"
-            style={{
-              top: `${10 + i * 10}%`,
-              left: i % 2 === 0 ? "10%" : "80%",
-              animationDelay: `${i * 0.5}s`,
-              fontSize: `${90 - i * 5}px`,
-            }}
-          />
-        ))}
-        {[...Array(6)].map((_, i) => (
-          <FiMusic
-            key={`music-${i}`}
-            className="absolute text-white/10 animate-cloud float-animation"
-            style={{
-              top: `${20 + i * 7}%`,
-              left: i % 2 === 0 ? "30%" : "70%",
-              animationDelay: `${i * 0.7}s`,
-              fontSize: `${80 - i * 6}px`,
-            }}
-          />
-        ))}
-        {[...Array(6)].map((_, i) => (
-          <FiHeadphones
-            key={`phones-${i}`}
-            className="absolute text-white/10 animate-cloud float-animation"
-            style={{
-              top: `${15 + i * 8}%`,
-              left: i % 2 === 0 ? "20%" : "60%",
-              animationDelay: `${i * 0.6}s`,
-              fontSize: `${75 - i * 4}px`,
-            }}
-          />
-        ))}
-      </div>
+{/* Ícones de fundo flutuantes */}
+<div
+  className="absolute inset-0 z-0 pointer-events-none select-none"
+  aria-hidden="true"
+>
+  {/* Nuvens (25) */}
+  {[...Array(25)].map((_, i) => (
+    <FiCloud
+      key={`cloud-${i}`}
+      className="absolute text-white/10 animate-cloud float-animation"
+      style={{
+        top: `${(i * 4 + (i * 7) % 15) % 95}%`,
+        left: `${(i * 9 + (i * 13) % 20) % 95}%`,
+        animationDelay: `${(i * 0.35) % 5}s`,
+        fontSize: `${70 + ((i * 3) % 20)}px`,
+      }}
+    />
+  ))}
+
+  {/* Notas Musicais (25) */}
+  {[...Array(25)].map((_, i) => (
+    <FiMusic
+      key={`music-${i}`}
+      className="absolute text-white/10 animate-cloud float-animation"
+      style={{
+        top: `${(i * 3 + (i * 11) % 18) % 90}%`,
+        left: `${(i * 12 + (i * 7) % 25) % 90}%`,
+        animationDelay: `${(i * 0.4 + 0.5) % 6}s`,
+        fontSize: `${60 + ((i * 4) % 25)}px`,
+      }}
+    />
+  ))}
+
+  {/* Headphones (20) */}
+  {[...Array(20)].map((_, i) => (
+    <FiHeadphones
+      key={`phones-${i}`}
+      className="absolute text-white/10 animate-cloud float-animation"
+      style={{
+        top: `${(i * 5 + (i * 9) % 20) % 88}%`,
+        left: `${(i * 14 + (i * 5) % 18) % 85}%`,
+        animationDelay: `${(i * 0.45 + 1) % 7}s`,
+        fontSize: `${55 + ((i * 5) % 20)}px`,
+      }}
+    />
+  ))}
+</div>
 
       <main className="relative z-10 pt-28 px-4 sm:px-8 pb-20 max-w-7xl mx-auto space-y-32">
         {/* Hero */}
