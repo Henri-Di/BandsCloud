@@ -14,6 +14,7 @@ import AvailabilityCard from "../../components/artists/ArtisCardJobs";
 import FanCard from "../../components/artists/ArtistCardFans";
 import TopHitsPlaylist from "../../components/artists/ArtistPlayerMusic";
 import ProfileSettingsCard from "../../components/artists/ArtistCardBio";
+import ScrollTopButton from "../../components/shared/ScrollTopButton";
 import Footer from "../../components/shared/Footer";
 import "../../styles/OverView.css";
 import LoadingSpinnerArtist from "../../components/shared/LoadingSpinnerDashboard";
@@ -292,7 +293,7 @@ export default function ArtistDashboardTest() {
             </div>
           </section>
         </main>
-
+        <ScrollTopButton />
         <Footer />
       </div>
     </div>
