@@ -1,6 +1,7 @@
 // src/App.tsx
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/auth/Login';
+import Home from './pages/Home';
 import ArtistDashboard from './pages/Artists/ArtistDashboard';
 import ArtistDashboardTest from './pages/Artists-Test/ArtistDashboardTest';
 import VenueDashboard from './pages/Venues/VenueDashboard';
@@ -15,20 +16,26 @@ const App = () => {
   return (
     <AuthProvider>
       <Routes>
+        {/* Home */}
+        <Route path="/" element={<Home />} />
+
+        {/* Login */}
         <Route path="/login" element={<Login />} />
 
-        {/* Rota de teste sem proteção */}
-<Route path="/artist-test" element={<ArtistDashboardTest />} /> 
-<Route path="/venue-test" element={<VenueDashboardTest />} /> 
-<Route path="/fan-test" element={<FanDashboardTest />} /> 
-<Route
-  path="/artist"
-  element={
-    <PrivateRoute allowedRoles={['ROLE_ARTIST']}>
-      <ArtistDashboard />
-    </PrivateRoute>
-  }
-/>
+        {/* Rotas de teste (sem proteção) */}
+        <Route path="/artist-test" element={<ArtistDashboardTest />} />
+        <Route path="/venue-test" element={<VenueDashboardTest />} />
+        <Route path="/fan-test" element={<FanDashboardTest />} />
+
+        {/* Rotas protegidas */}
+        <Route
+          path="/artist"
+          element={
+            <PrivateRoute allowedRoles={['ROLE_ARTIST']}>
+              <ArtistDashboard />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/venue"
           element={
@@ -46,8 +53,11 @@ const App = () => {
           }
         />
 
+        {/* Página de não autorizado */}
         <Route path="/unauthorized" element={<Unauthorized />} />
-        <Route path="*" element={<Navigate to="/login" replace />} />
+
+        {/* Redirecionamento padrão */}
+        <Route path="*" element={<Navigate to="/" replace />} /> 
       </Routes>
     </AuthProvider>
   );
