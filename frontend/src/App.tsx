@@ -2,6 +2,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/auth/Login';
 import Home from './pages/Home';
+import About from './pages/About';
 import ArtistDashboard from './pages/Artists/ArtistDashboard';
 import ArtistDashboardTest from './pages/Artists-Test/ArtistDashboardTest';
 import VenueDashboard from './pages/Venues/VenueDashboard';
@@ -18,6 +19,9 @@ const App = () => {
       <Routes>
         {/* Home */}
         <Route path="/" element={<Home />} />
+
+        {/* About */}
+        <Route path="/about" element={<About />} />
 
         {/* Login */}
         <Route path="/login" element={<Login />} />

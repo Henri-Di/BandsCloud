@@ -15,7 +15,8 @@ const Navbar: React.FC = () => {
 
   // Menu items com ícones ajustados
   const menuItems = [
-    { label: "BandsCloud", href: "/", icon: <FiHome /> },
+    { label: "Home", href: "/", icon: <FiHome /> },
+    { label: "BandsCloud", href: "/about", icon: <FiCloud /> },
     { label: "Missão", href: "#perfil", icon: <FiHeart /> },
     { label: "Valores", href: "#musicas", icon: <FiGift /> },
     { label: "Contribuição", href: "#albuns", icon: <FiUsers /> },
