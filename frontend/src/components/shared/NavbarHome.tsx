@@ -2,26 +2,24 @@ import React, { useState } from "react";
 import {
   FiCloud,
   FiHome,
-  FiUser,
-  FiMusic,
-  FiFolder,
-  FiCalendar,
   FiUsers,
-  FiSettings,
+  FiHeart,
+  FiGift,
+  FiDollarSign,
+  FiMenu,
+  FiX,
 } from "react-icons/fi";
 
 const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
 
-  // Menu items com label, link e ícone
+  // Menu items com ícones ajustados
   const menuItems = [
-    { label: "Home", href: "/", icon: <FiHome /> },
-    { label: "Perfil", href: "#perfil", icon: <FiUser /> },
-    { label: "Músicas", href: "#musicas", icon: <FiMusic /> },
-    { label: "Álbuns", href: "#albuns", icon: <FiFolder /> },
-    { label: "Eventos e Shows", href: "#eventos", icon: <FiCalendar /> },
-    { label: "Seguidores e Fãs", href: "#seguidores", icon: <FiUsers /> },
-    { label: "Configurações", href: "#configuracoes", icon: <FiSettings /> },
+    { label: "BandsCloud", href: "/", icon: <FiHome /> },
+    { label: "Missão", href: "#perfil", icon: <FiHeart /> },
+    { label: "Valores", href: "#musicas", icon: <FiGift /> },
+    { label: "Contribuição", href: "#albuns", icon: <FiUsers /> },
+    { label: "Patrocínios", href: "#eventos", icon: <FiDollarSign /> },
   ];
 
   return (
@@ -59,29 +57,7 @@ const Navbar: React.FC = () => {
               aria-expanded={open}
               className="text-white hover:text-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-300 rounded"
             >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {open ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
+              {open ? <FiX className="h-6 w-6" /> : <FiMenu className="h-6 w-6" />}
             </button>
           </div>
         </div>
