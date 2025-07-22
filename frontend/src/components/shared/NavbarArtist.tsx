@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
 
   // Menu items com label, link e ícone
   const menuItems = [
-    { label: "Home", href: "/", icon: <FiHome /> },
+    { label: "Home", href: "/artist", icon: <FiHome /> },
     { label: "Perfil", href: "#perfil", icon: <FiUser /> },
     { label: "Músicas", href: "#musicas", icon: <FiMusic /> },
     { label: "Álbuns", href: "#albuns", icon: <FiFolder /> },

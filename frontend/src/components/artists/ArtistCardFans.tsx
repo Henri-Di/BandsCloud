@@ -31,10 +31,18 @@ const FanCard: React.FC<FanCardProps> = ({
   };
 
   return (
-    <div className="bg-gradient-to-br from-[#1a1a1a] to-[#2b2b2b] text-white rounded-2xl shadow-xl p-6 space-y-5 border border-[#6600cc]/50 hover:shadow-[0_0_15px_#7a3aff80] transition-all duration-300 hover:scale-[1.02]">
+    <div
+      className="
+        bg-gradient-to-br from-[#121212] to-[#1e1e2f] text-white rounded-2xl
+        border border-purple-700/60 shadow-[0_0_24px_#9c7cffaa]
+        p-6 space-y-5
+        hover:shadow-[0_0_40px_#9c7cffcc] hover:scale-[1.03]
+        transition-all duration-300
+      "
+    >
       {/* Cabeçalho com nome e data */}
-      <div className="flex justify-between items-center">
-        <h3 className="text-xl font-bold text-[#6600cc] tracking-tight flex items-center gap-2">
+      <div className="flex justify-between items-center select-none">
+        <h3 className="text-xl font-bold text-purple-400 tracking-tight flex items-center gap-2">
           <FiUser />
           {name}
         </h3>
@@ -45,14 +53,14 @@ const FanCard: React.FC<FanCardProps> = ({
       </div>
 
       {/* Localização */}
-      <div className="flex items-center gap-2 text-sm text-gray-300">
-        <FiMapPin className="text-[#6600cc]" />
+      <div className="flex items-center gap-2 text-sm text-gray-300 select-none">
+        <FiMapPin className="text-purple-400" />
         <span>{location}</span>
       </div>
 
       {/* Bio */}
       {bio && (
-        <p className="text-sm text-gray-400 leading-relaxed border-l-4 border-[#6600cc] pl-4 italic">
+        <p className="text-sm text-gray-400 leading-relaxed border-l-4 border-purple-400 pl-4 italic select-text">
           {bio}
         </p>
       )}
@@ -60,7 +68,13 @@ const FanCard: React.FC<FanCardProps> = ({
       {/* Botões de ação */}
       <div className="flex flex-wrap gap-3 mt-4">
         <button
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#6600cc] hover:bg-[#b285ff] text-white text-sm font-medium transition-all shadow-md focus:outline-none focus:ring-2 focus:ring-purple-400"
+          className="
+            flex items-center gap-2 px-4 py-2 rounded-xl
+            bg-purple-700 hover:bg-purple-400 text-white text-sm font-medium
+            transition-all shadow-md
+            focus:outline-none focus:ring-2 focus:ring-purple-400
+            select-none cursor-pointer
+          "
           aria-label={`Seguir ${name} de volta`}
           type="button"
         >
@@ -69,7 +83,13 @@ const FanCard: React.FC<FanCardProps> = ({
         </button>
 
         <button
-          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#6600cc] text-white text-sm font-medium hover:bg-[#b285ff]/20 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+          className="
+            flex items-center gap-2 px-4 py-2 rounded-xl border border-purple-700
+            text-white text-sm font-medium
+            hover:bg-purple-400/20 transition-all shadow-sm
+            focus:outline-none focus:ring-2 focus:ring-purple-400
+            select-none cursor-pointer
+          "
           aria-label={`Enviar mensagem para ${name}`}
           type="button"
         >
@@ -79,7 +99,13 @@ const FanCard: React.FC<FanCardProps> = ({
 
         <button
           onClick={onViewProfile}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl border border-[#6600cc] text-white text-sm font-medium hover:bg-[#b285ff]/30 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+          className="
+            flex items-center gap-2 px-4 py-2 rounded-xl border border-purple-700
+            text-white text-sm font-medium
+            hover:bg-purple-400/30 transition-all shadow-sm
+            focus:outline-none focus:ring-2 focus:ring-purple-400
+            select-none cursor-pointer
+          "
           aria-label={`Ver perfil de ${name}`}
           type="button"
         >
@@ -103,12 +129,15 @@ const FanCard: React.FC<FanCardProps> = ({
               aria-label={`Reagir com ${emoji}`}
               aria-pressed={isSelected}
               type="button"
-              className={`text-xl px-3 py-1 rounded-lg border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-400
+              className={`
+                text-xl px-3 py-1 rounded-lg border transition-all duration-300
+                focus:outline-none focus:ring-2 focus:ring-purple-400
                 ${
                   isSelected
-                    ? "bg-[#b285ff]/40 border-[#b285ff] shadow-inner scale-105"
-                    : "border-transparent hover:bg-[#b285ff]/20 opacity-80 hover:opacity-100"
-                }`}
+                    ? "bg-purple-400/40 border-purple-400 shadow-inner scale-105"
+                    : "border-transparent hover:bg-purple-400/20 opacity-80 hover:opacity-100"
+                }
+              `}
             >
               {emoji}
             </motion.button>
@@ -125,7 +154,11 @@ const FanCard: React.FC<FanCardProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.3 }}
-            className="flex items-center gap-2 mt-3 text-sm text-purple-300 bg-[#b285ff]/20 border border-[#b285ff] px-4 py-2 rounded-lg animate-pulse"
+            className="
+              flex items-center gap-2 mt-3 text-sm text-purple-300
+              bg-purple-400/20 border border-purple-400 px-4 py-2 rounded-lg
+              animate-pulse select-none
+            "
           >
             <span className="text-lg">{reaction}</span>
             <span className="italic">Você reagiu com {reaction}</span>

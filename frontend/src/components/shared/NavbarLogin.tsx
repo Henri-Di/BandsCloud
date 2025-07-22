@@ -5,7 +5,6 @@ import {
   FiMenu,
   FiX,
   FiUser,
-  FiLogIn,
 } from "react-icons/fi";
 
 const Navbar: React.FC = () => {
@@ -16,7 +15,6 @@ const Navbar: React.FC = () => {
     { label: "Home", href: "/", icon: <FiHome /> },
     { label: "BandsCloud", href: "/about", icon: <FiCloud /> },
     { label: "Cadastre-se", href: "/register", icon: <FiUser /> },
-    { label: "Login", href: "/login", icon: <FiLogIn /> },
   ];
 
   return (

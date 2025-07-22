@@ -158,20 +158,47 @@ const TopHitsPlaylist: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto bg-[#1a1a1a] rounded-xl p-6 shadow-lg text-white space-y-6">
-      <h2 className="text-2xl font-bold text-purple-300 mb-4">Top Hits da Semana</h2>
+    <div
+      className="
+        bg-gradient-to-br from-[#121212] to-[#1e1e2f]
+        rounded-3xl p-4 sm:p-6 md:p-10
+        shadow-[0_6px_12px_rgba(168,85,247,0.9)]
+        text-white max-w-6xl mx-auto
+        select-none ring-purple-400/60
+        transition-shadow duration-300 hover:shadow-[0_6px_12px_rgba(168,85,247,0.4)]
+        flex flex-col gap-5 sm:gap-7
+      "
+    >
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-purple-300 drop-shadow-lg tracking-wide select-none">
+        Top Hits da Semana
+      </h2>
 
-      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-h-[600px] overflow-y-auto px-2 sm:px-4 py-2 scrollbar-custom shadow-scroll-both rounded">
+      {/* Lista de músicas */}
+      <ul
+        className="
+    grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3
+    gap-3 sm:gap-5
+    max-h-[400px] sm:max-h-[600px] overflow-y-auto
+    px-1 sm:px-3 md:px-4 py-2
+    rounded-3xl
+    bg-gradient-to-br from-[#1a1a2e] to-[#1e1e2f]
+    shadow-inner
+    scrollbar-custom
+    w-full
+  "
+      >
         {topHits.map((song, idx) => {
           const isCurrent = idx === currentSongIndex;
           return (
             <li
               key={idx}
-              className={`flex items-center justify-between rounded-lg p-3 cursor-pointer transition-colors
+              className={`
+                flex items-center justify-between rounded-3xl p-3 sm:p-4 cursor-pointer select-none
+                transition-colors duration-300
                 ${
                   isCurrent
-                    ? "bg-purple-700 shadow-lg shadow-purple-900/80 text-white"
-                    : "bg-[#2a2a2a] hover:bg-gray-300 hover:text-gray-900 shadow-md hover:shadow-lg hover:shadow-gray-400"
+                    ? "bg-purple-700 shadow-[0_0_20px_#9d7fffaa] text-white"
+                    : "bg-[#2c2c36] hover:bg-purple-700/60 hover:text-white shadow-sm"
                 }
               `}
               onClick={() => playPauseSong(idx)}
@@ -182,33 +209,44 @@ const TopHitsPlaylist: React.FC = () => {
                   playPauseSong(idx);
                 }
               }}
+              aria-pressed={isCurrent && isPlaying}
+              aria-label={`${song.title} por ${song.artist} ${
+                isCurrent && isPlaying ? "tocando" : ""
+              }`}
             >
-              <div className="flex items-center gap-3 sm:gap-4">
+              <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                 <img
                   src={song.coverUrl}
-                  alt={song.title}
-                  className="w-10 h-10 sm:w-12 sm:h-12 rounded object-cover shadow-md"
+                  alt={`Capa de ${song.title}`}
+                  className="w-10 h-10 sm:w-14 sm:h-14 rounded-3xl object-cover shadow-2xl flex-shrink-0"
+                  loading="lazy"
+                  draggable={false}
                 />
                 <div className="min-w-0">
-                  <p className="font-semibold text-sm sm:text-base truncate">{song.title}</p>
-                  <p className="text-xs sm:text-sm text-gray-400 truncate">{song.artist}</p>
+                  <p className="font-extrabold text-sm sm:text-base truncate">
+                    {song.title}
+                  </p>
+                  <p className="text-purple-400 truncate text-xs sm:text-sm">
+                    {song.artist}
+                  </p>
                 </div>
               </div>
               <button
                 className={`
-                  p-2 rounded-full shadow-md transition-colors duration-200
+                  p-2 sm:p-3 rounded-full shadow-lg transition-colors duration-300 transform
                   ${
                     isCurrent && isPlaying
-                      ? "bg-purple-600 text-white hover:bg-purple-700 hover:shadow-lg"
-                      : "bg-purple-500 text-purple-100 hover:bg-purple-600 hover:text-white hover:shadow-md"
+                      ? "bg-purple-500 text-white hover:bg-purple-600 scale-110"
+                      : "bg-purple-600 text-purple-100 hover:bg-purple-700 hover:text-white"
                   }
+                  focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2
                 `}
                 onClick={(e) => {
                   e.stopPropagation();
                   playPauseSong(idx);
                 }}
-                aria-label={isCurrent && isPlaying ? "Pause" : "Play"}
-                title={isCurrent && isPlaying ? "Pause" : "Play"}
+                aria-label={isCurrent && isPlaying ? "Pausar" : "Tocar"}
+                title={isCurrent && isPlaying ? "Pausar" : "Tocar"}
               >
                 {isCurrent && isPlaying ? <FaPause size={16} /> : <FaPlay size={16} />}
               </button>
@@ -217,58 +255,65 @@ const TopHitsPlaylist: React.FC = () => {
         })}
       </ul>
 
+      {/* Player principal */}
       {currentSongIndex !== null && (
-        <div className="pt-4 border-t border-purple-700 mt-4 space-y-4">
-          {/* Controles principais */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 flex-wrap">
-            <div className="flex items-center gap-3 min-w-0 flex-1">
+        <div
+          className="
+            pt-5 sm:pt-6 border-t border-purple-700 mt-5 sm:mt-6 space-y-5 sm:space-y-6
+            select-none
+          "
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-5 flex-wrap">
+            <div className="flex items-center gap-3 sm:gap-5 min-w-0 flex-1">
               <img
                 src={topHits[currentSongIndex].coverUrl}
-                alt="Capa"
-                className="w-12 h-12 sm:w-16 sm:h-16 rounded shadow-md object-cover"
+                alt={`Capa de ${topHits[currentSongIndex].title}`}
+                className="w-14 h-14 sm:w-20 sm:h-20 rounded-3xl shadow-2xl object-cover"
+                loading="lazy"
+                draggable={false}
               />
               <div className="min-w-0">
-                <p className="font-semibold text-base sm:text-lg truncate">
+                <p className="font-extrabold text-lg sm:text-2xl truncate text-purple-300 drop-shadow-lg">
                   {topHits[currentSongIndex].title}
                 </p>
-                <p className="text-sm sm:text-base text-gray-400 truncate">
+                <p className="text-purple-400 text-xs sm:text-sm truncate drop-shadow-md">
                   {topHits[currentSongIndex].artist}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
+            <div className="flex items-center justify-center gap-2 sm:gap-4 flex-wrap">
               <button
                 onClick={prevSong}
-                className="text-purple-300 hover:text-white p-2 rounded transition-colors duration-200 cursor-pointer"
-                aria-label="Previous Song"
-                title="Previous"
+                className="text-purple-300 hover:text-white p-2 sm:p-3 rounded-full bg-purple-800 hover:bg-purple-700 shadow-lg transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2"
+                aria-label="Música anterior"
+                title="Anterior"
               >
                 <FaStepBackward size={20} />
               </button>
               <button
                 onClick={() => playPauseSong(currentSongIndex)}
-                className="text-purple-300 hover:text-white p-3 rounded-full bg-purple-600 shadow-md transition-colors duration-200 cursor-pointer"
-                aria-label={isPlaying ? "Pause" : "Play"}
-                title={isPlaying ? "Pause" : "Play"}
+                className="text-white p-4 sm:p-5 rounded-full bg-purple-400 shadow-lg hover:bg-purple-700 transition-transform duration-300 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2 cursor-pointer"
+                aria-label={isPlaying ? "Pausar" : "Tocar"}
+                title={isPlaying ? "Pausar" : "Tocar"}
               >
-                {isPlaying ? <FaPause size={22} /> : <FaPlay size={22} />}
+                {isPlaying ? <FaPause size={24} /> : <FaPlay size={24} />}
               </button>
               <button
                 onClick={nextSong}
-                className="text-purple-300 hover:text-white p-2 rounded transition-colors duration-200 cursor-pointer"
-                aria-label="Next Song"
-                title="Next"
+                className="text-purple-300 hover:text-white p-2 sm:p-3 rounded-full bg-purple-800 hover:bg-purple-700 shadow-lg transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2"
+                aria-label="Próxima música"
+                title="Próxima"
               >
                 <FaStepForward size={20} />
               </button>
               <button
                 onClick={toggleMute}
-                className="text-purple-300 hover:text-white p-2 rounded transition-colors duration-200 cursor-pointer"
-                aria-label={isMuted ? "Unmute" : "Mute"}
-                title={isMuted ? "Unmute" : "Mute"}
+                className="text-purple-300 hover:text-white p-2 sm:p-3 rounded-full bg-purple-800 hover:bg-purple-700 shadow-lg transition-colors duration-200 cursor-pointer focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-2"
+                aria-label={isMuted ? "Ativar som" : "Silenciar"}
+                title={isMuted ? "Ativar som" : "Silenciar"}
               >
-                {isMuted ? <FaVolumeMute size={20} /> : <FaVolumeUp size={20} />}
+                {isMuted ? <FaVolumeMute size={18} /> : <FaVolumeUp size={18} />}
               </button>
               <input
                 type="range"
@@ -277,15 +322,16 @@ const TopHitsPlaylist: React.FC = () => {
                 step={0.01}
                 value={volume}
                 onChange={handleVolumeChange}
-                className="w-28 sm:w-36 accent-purple-400 cursor-pointer"
-                aria-label="Volume control"
+                className="w-20 sm:w-32 accent-purple-400 cursor-pointer rounded-lg shadow-inner"
+                aria-label="Controle de volume"
+                title="Volume"
               />
             </div>
           </div>
 
           {/* Barra de progresso */}
           <div className="flex items-center gap-2 sm:gap-3 w-full">
-            <span className="text-xs sm:text-sm text-gray-400 w-10 text-right tabular-nums">
+            <span className="text-xs sm:text-sm font-mono text-purple-300 w-10 sm:w-14 text-right tabular-nums select-none">
               {formatTime(progress)}
             </span>
             <input
@@ -295,15 +341,33 @@ const TopHitsPlaylist: React.FC = () => {
               step={0.1}
               value={progress}
               onChange={handleSeek}
-              className="flex-grow accent-purple-400 cursor-pointer rounded"
-              aria-label="Seek bar"
+              className="
+                flex-grow h-2 sm:h-3 rounded-full cursor-pointer
+                accent-purple-400
+                shadow-inner
+                hover:accent-purple-300
+                transition-colors duration-300
+                focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-offset-1
+              "
+              aria-label="Barra de progresso"
+              title={`Tempo: ${formatTime(progress)}`}
+              style={{
+                background: `linear-gradient(90deg, #d8b4fe ${
+                  (progress / duration) * 100
+                }%, #6b21a8 ${(progress / duration) * 100}%)`,
+                transition: "background 0.3s ease",
+              }}
             />
-            <span className="text-xs sm:text-sm text-gray-400 w-10 tabular-nums">
+            <span className="text-xs sm:text-sm font-mono text-purple-300 w-10 sm:w-14 tabular-nums select-none">
               {formatTime(duration)}
             </span>
           </div>
 
-          {isLoading && <p className="text-sm text-gray-400 italic">Carregando música...</p>}
+          {isLoading && (
+            <p className="text-sm text-purple-400 italic select-none">
+              Carregando música...
+            </p>
+          )}
 
           <audio ref={audioRef} preload="metadata" />
         </div>

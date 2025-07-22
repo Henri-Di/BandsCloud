@@ -2,7 +2,7 @@ import { FiCloud, FiMusic } from "react-icons/fi";
 
 export default function LoadingSpinnerLogin() {
   return (
-    <div className="relative flex items-center justify-center min-h-screen bg-gray-950 text-white overflow-hidden">
+    <div className="relative flex items-center justify-center min-h-screen bg-gray-950 from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a] text-white overflow-hidden">
       {/* Ícones flutuantes no background */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Nuvens */}
