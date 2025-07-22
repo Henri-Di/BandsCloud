@@ -1,8 +1,10 @@
 security:
+    # Algoritmo de hash de senha para a entidade User
     password_hashers:
         App\Entity\User:
             algorithm: auto
 
+    # Provedor de usuários utilizando a entidade User, baseado no campo 'email'
     providers:
         app_user_provider:
             entity:
@@ -10,10 +12,12 @@ security:
                 property: email
 
     firewalls:
+        # 🔧 Desativa a segurança em rotas de desenvolvimento (profiler, assets etc.)
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        # 🔐 Login via JSON (JWT) - usado para autenticação inicial
         login:
             pattern: ^/api/login_check$
             stateless: true
@@ -25,17 +29,36 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
+        # 🆕 Rota pública de registro de usuário (sem autenticação)
+        register:
+            pattern: ^/api/register$
+            stateless: true
+            security: false  # permite acesso anônimo ao endpoint de registro
+
+        # 🔒 Firewall principal da API protegida com JWT
         api:
             pattern: ^/api
             stateless: true
             provider: app_user_provider
-            jwt: ~
+            jwt: ~  # ativa autenticação baseada em token JWT
 
     access_control:
+        # ✅ Permite login anônimo
         - { path: ^/api/login_check$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        # ✅ Permite acesso público à criação de conta (registro)
+        - { path: ^/api/register$, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST] }
+
+        # 🔒 Acesso restrito por tipo de perfil (role)
         - { path: ^/api/artist, roles: ROLE_ARTIST }
         - { path: ^/api/venue, roles: ROLE_VENUE }
         - { path: ^/api/fan, roles: ROLE_FAN }
+
+        # 🔒 Perfil do usuário (precisa estar autenticado)
         - { path: ^/api/user/profile, roles: IS_AUTHENTICATED_FULLY }
+
+        # 🔒 Área administrativa
         - { path: ^/api/admin, roles: ROLE_ADMIN }
+
+        # 🔒 Todo o restante da API exige autenticação
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
