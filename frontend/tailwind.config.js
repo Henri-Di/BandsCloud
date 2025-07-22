@@ -33,6 +33,14 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addComponents }) {
+      addComponents({
+        '.input-base': {
+          '@apply w-full px-4 py-2 rounded bg-gray-800 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-purple-600 transition': {},
+        },
+      });
+    },
+  ],
   darkMode: 'class',
-}
+};

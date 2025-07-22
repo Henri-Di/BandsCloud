@@ -1,0 +1,18 @@
+# Dockerfile.dev
+FROM node:20-alpine
+
+# Define diretório de trabalho dentro do container
+WORKDIR /app
+
+# Copia os arquivos de dependência e instala
+COPY package*.json ./
+RUN npm install --legacy-peer-deps
+
+# Copia os arquivos do projeto
+COPY . .
+
+# Expõe a porta usada pelo Vite (default: 5173)
+EXPOSE 5173
+
+# Comando padrão ao iniciar o container
+CMD ["npm", "run", "dev"]
