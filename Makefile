@@ -1,4 +1,4 @@
-.PHONY: up down logs logs-backend logs-frontend bash-backend bash-frontend migrate create-db shell test clear-cache build-frontend dev-frontend migrate-reset
+.PHONY: up down logs logs-backend logs-frontend bash-backend bash-frontend migrate create-db shell test clear-cache build-frontend dev-frontend migrate-reset restart-backend restart-frontend
 
 # Sobe todos os containers em background e reconstrói a imagem
 up:
@@ -54,14 +54,20 @@ clear-cache:
 
 # Executa build de produção do frontend React
 build-frontend:
-	docker-compose exec frontend npm install
 	docker-compose exec frontend npm run build
 
 # Roda o servidor frontend em modo desenvolvimento (Vite)
 dev-frontend:
-	docker-compose exec frontend npm install
 	docker-compose exec frontend npm run dev
 
 # Reseta todas as migrations (cuidado: apaga dados!)
 migrate-reset:
 	docker-compose exec backend php bin/console doctrine:migrations:migrate --no-interaction --reset
+
+# Reinicia apenas o backend
+restart-backend:
+	docker-compose restart backend
+
+# Reinicia apenas o frontend
+restart-frontend:
+	docker-compose restart frontend
