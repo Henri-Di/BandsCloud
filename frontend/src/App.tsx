@@ -9,12 +9,15 @@ import VenueDashboard from './pages/Venues/VenueDashboard';
 import VenueDashboardTest from './pages/Venus-Test/VenueDashboardTest';
 import FanDashboard from './pages/Fans/FanDashboard';
 import FanDashboardTest from './pages/Fans-Test/FanDashboardTest';
+import Register from './pages/Register';
 import Unauthorized from './pages/Unauthorized';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
+import { HelmetProvider } from 'react-helmet-async';
 
 const App = () => {
   return (
+    <HelmetProvider>
     <AuthProvider>
       <Routes>
         {/* Home */}
@@ -22,6 +25,9 @@ const App = () => {
 
         {/* About */}
         <Route path="/about" element={<About />} />
+
+        {/* Register User */}
+        <Route path="/register" element={<Register />} />
 
         {/* Login */}
         <Route path="/login" element={<Login />} />
@@ -64,6 +70,7 @@ const App = () => {
         <Route path="*" element={<Navigate to="/" replace />} /> 
       </Routes>
     </AuthProvider>
+  </HelmetProvider>
   );
 };
 
