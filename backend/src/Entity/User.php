@@ -2,74 +2,68 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Delete;
-
+use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: "App\Repository\UserRepository")]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: "users")]
-#[ApiResource(
-    normalizationContext: ['groups' => ['user:list', 'user:item']],
-    denormalizationContext: ['groups' => ['user:write']],
-    operations: [
-        new GetCollection(), // GET /users
-        new Get(),           // GET /users/{id}
-        new Post(),          // POST /users
-        new Put(),           // PUT /users/{id}
-        new Delete()         // DELETE /users/{id}
-    ]
-)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     #[Groups(['user:list', 'user:item'])]
     private ?int $id = null;
 
-    #[ORM\Column(type: "string", length: 180, unique: true)]
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\NotBlank(message: 'Email é obrigatório.')]
+    #[Assert\Email(message: 'Email inválido.')]
     #[Groups(['user:list', 'user:item', 'user:write'])]
     private string $email;
 
-    #[ORM\Column(type: "json")]
+    #[ORM\Column(type: 'json')]
+    #[Assert\NotNull(message: 'Roles não podem ser nulas.')]
     private array $roles = [];
 
-    #[ORM\Column(type: "string")]
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank(message: 'Senha é obrigatória.')]
+    #[Assert\Length(min: 6, minMessage: 'A senha deve ter pelo menos {{ limit }} caracteres.')]
     #[Groups(['user:write'])]
     private string $password;
 
-    #[ORM\Column(type: "string", length: 100, nullable: true)]
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Assert\Length(max: 100, maxMessage: 'Nome deve ter no máximo {{ limit }} caracteres.')]
     #[Groups(['user:list', 'user:item', 'user:write'])]
     private ?string $name = null;
 
-    #[ORM\Column(type: "text", nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     #[Groups(['user:item', 'user:write'])]
     private ?string $bio = null;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    #[Groups(['user:item', 'user:write'])]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $photo = null;
 
-    #[ORM\Column(type: "json", nullable: true)]
+    #[ORM\Column(type: 'json', nullable: true)]
     #[Groups(['user:item', 'user:write'])]
     private ?array $socialLinks = null;
 
-    #[ORM\Column(type: "datetime")]
+    #[ORM\Column(type: 'datetime')]
     #[Groups(['user:list', 'user:item'])]
     private \DateTimeInterface $createdAt;
 
     public function __construct()
     {
+        // Define a data de criação como agora (imutável)
         $this->createdAt = new \DateTimeImmutable();
     }
+
+    // --------------------
+    // Getters e Setters
+    // --------------------
 
     public function getId(): ?int
     {
@@ -88,21 +82,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * A visual identifier that represents this user.
+     * Retorna roles do usuário, garantindo ROLE_USER sempre presente.
      */
-    public function getUserIdentifier(): string
-    {
-        return $this->email;
-    }
-
-    /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
-     */
-    public function getUsername(): string
-    {
-        return $this->email;
-    }
-
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -110,12 +91,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if (!in_array('ROLE_USER', $roles)) {
             $roles[] = 'ROLE_USER';
         }
+
         return array_unique($roles);
     }
 
+    /**
+     * Define roles do usuário, garantindo ROLE_USER.
+     */
     public function setRoles(array $roles): self
     {
-        $this->roles = $roles;
+        if (!in_array('ROLE_USER', $roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+        $this->roles = array_unique($roles);
         return $this;
     }
 
@@ -128,17 +116,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->password = $password;
         return $this;
-    }
-
-    public function getSalt(): ?string
-    {
-        // Not needed when using modern algorithms (bcrypt, sodium, etc.)
-        return null;
-    }
-
-    public function eraseCredentials(): void
-    {
-        // Clear any temporary sensitive data here
     }
 
     public function getName(): ?string
@@ -188,5 +165,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
+    }
+
+    // --------------------
+    // Métodos da interface UserInterface
+    // --------------------
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Limpa dados sensíveis temporários, se existirem
+    }
+
+    // --------------------
+    // Método mágico para facilitar debug e logs
+    // --------------------
+    public function __toString(): string
+    {
+        return $this->getEmail();
     }
 }
