@@ -18,6 +18,8 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/shared/NavbarHome";
 import Footer from "../components/shared/Footer";
 import LoadingSpinnerHome from "../components/shared/LoadingSpinnerHome";
+import ScrollTopButton from "../components/shared/ScrollTopButton";
+
 
 import "../styles/OverView.css";
 
@@ -26,7 +28,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 3000);
+    const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -35,7 +37,7 @@ export default function Home() {
   }
 
   return (
-    <div className="relative bg-gradient-to-br from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a] text-white min-h-screen flex flex-col overflow-hidden">
+    <div className="relative bg-gray-950 from-[#0f0f0f] via-[#1a1a1a] to-[#2a2a2a] text-white min-h-screen flex flex-col overflow-hidden">
       <Navbar />
 
 {/* Ícones de fundo flutuantes */}
@@ -169,7 +171,7 @@ export default function Home() {
               key={idx}
               tabIndex={0}
               role="button"
-              className="group bg-[#1f1f1f] rounded-2xl p-8 shadow-xl border border-purple-700
+              className="group bg-gradient-to-br from-purple-900 via-[#2a2540] to-[#1a1830] rounded-2xl p-8 shadow-xl border border-purple-700
                          hover:scale-[1.03] hover:border-purple-500 transition duration-300
                          flex flex-col items-center cursor-pointer
                          focus:outline-none focus:ring-4 focus:ring-purple-500/50"
@@ -263,7 +265,7 @@ export default function Home() {
                 key={idx}
                 tabIndex={0}
                 role="button"
-                className="bg-[#2a2a2a] rounded-xl p-6 shadow border border-purple-700
+                className="bg-gradient-to-br from-purple-900 via-[#2a2540] to-[#1a1830] rounded-xl p-6 shadow border border-purple-700
                            flex flex-col items-center gap-4 hover:shadow-lg hover:border-purple-400
                            hover:scale-[1.05] transition-transform duration-300 cursor-pointer
                            focus:outline-none focus:ring-4 focus:ring-purple-500/60"
@@ -360,7 +362,7 @@ export default function Home() {
                 key={idx}
                 tabIndex={0}
                 role="button"
-                className="group bg-[#1f1f1f] rounded-2xl p-8 shadow-xl border border-purple-700
+                className="group bg-gradient-to-br from-purple-900 via-[#2a2540] to-[#1a1830] rounded-2xl p-8 shadow-xl border border-purple-700
                            hover:scale-[1.03] hover:border-purple-500 transition duration-300
                            flex flex-col items-center cursor-pointer
                            focus:outline-none focus:ring-4 focus:ring-purple-500/50"
@@ -415,7 +417,9 @@ export default function Home() {
         {/* Melhores Eventos e Shows */}
         <TopEvents />
       </main>
-
+     {/* Scroll to top button */}
+      <ScrollTopButton />
+      
       <Footer />
     </div>
   );
@@ -521,7 +525,7 @@ function ArtistCard({
     <article
       tabIndex={0}
       role="button"
-      className="bg-[#2a2a2a] rounded-xl p-6 shadow border border-purple-700
+      className="bg-gradient-to-br from-purple-900 via-[#2a2540] to-[#1a1830] rounded-xl p-6 shadow border border-purple-700
                  flex flex-col items-center gap-4 hover:shadow-lg hover:border-purple-400
                  hover:scale-[1.05] transition-transform duration-300 cursor-pointer
                  focus:outline-none focus:ring-4 focus:ring-purple-500/60"
@@ -689,7 +693,7 @@ function EventCard({
     <article
       tabIndex={0}
       role="button"
-      className="bg-[#2a2a2a] rounded-xl shadow border border-purple-700 p-6 flex flex-col gap-4
+      className="bg-gradient-to-br from-purple-900 via-[#2a2540] to-[#1a1830] rounded-xl shadow border border-purple-700 p-6 flex flex-col gap-4
                  hover:shadow-lg hover:border-purple-400 hover:scale-[1.05] transition-transform duration-300 cursor-pointer
                  focus:outline-none focus:ring-4 focus:ring-purple-500/60"
       onKeyDown={(e) => {
@@ -751,3 +755,4 @@ function EventCard({
     </article>
   );
 }
+
